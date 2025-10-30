@@ -1,0 +1,33 @@
+{
+  "nome": "Pedro Paulo",
+  "cpf": "55566677788",
+  "dataNascimento": "1977-12-05",
+  "endereco": "Rua Fim do Mundo, 777, Inquisidor do Vale",
+  "telefone": "41996667777",
+  "email": "docpedro@email.com",
+  "cadastroAtivo": true,
+  "identificadorProfissionalSaude": "MED123",
+  "unidadeTrabalho": "CLINICA",
+  "turno": "MANHA",
+  "conselhoProfissional": "CRM",
+  "registroProfissional": "123456",
+  "especialidade": "GERIATRIA",
+  "eplantonista": false
+}
+
+{
+  "nome": "João da Silva",
+  "cpf": "11122233344",
+  "dataNascimento": "1960-10-30",
+  "endereco": "Rua dos Bobos, 0, Inquisidor do Valor, Paraná",
+  "telefone": "41991112222",
+  "email": "joao@email.com",
+  "cadastroAtivo": true,
+  "identificadorPaciente": "PAC123",
+  "convenio": "FAMILIAR",
+  "alergias": [
+    "Lactose","Ovo","Camarão"
+  ],
+  "profissao": "Aposentado",
+  "contatoEmergencia": "Maria Lurde (Esposa) — 41992223333"
+}
