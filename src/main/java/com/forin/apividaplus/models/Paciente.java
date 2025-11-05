@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pacientes")
-public class Paciente {
+public class Paciente extends Pessoa{
 
     @Id
     @Column(name = "identificador_paciente")
@@ -16,6 +16,7 @@ public class Paciente {
     @Column(name = "profissao", length = 20)
     private String profissao;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_convenio")
     private Convenio convenio;
 
