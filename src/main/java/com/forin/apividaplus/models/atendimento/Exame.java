@@ -1,6 +1,7 @@
 package com.forin.apividaplus.models.atendimento;
 
 import com.forin.apividaplus.models.enums.CategoriaExame;
+import com.forin.apividaplus.models.infraestrutura.Laboratorio;
 import com.forin.apividaplus.models.pessoas.Paciente;
 import com.forin.apividaplus.models.pessoas.Tecnico;
 import jakarta.persistence.*;
@@ -17,18 +18,19 @@ public class Exame {
     @Column(name = "identificador_exame")
     private String idExame;
 
-    @Column(name = "paciente", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @ManyToOne
-    @Column(name = "local", nullable = false)
+    @JoinColumn(name = "laboratorio_id", nullable = false)
     private Laboratorio laboratorio;
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @Column(name = "tecnico_responsavel", nullable = false)
+    @JoinColumn(name = "tecnico_id", nullable = false)
     private Tecnico tecnicoResponsavel;
 
     @Enumerated(EnumType.STRING)

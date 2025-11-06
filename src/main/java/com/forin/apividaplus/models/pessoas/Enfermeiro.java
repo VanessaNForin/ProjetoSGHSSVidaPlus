@@ -16,7 +16,8 @@ public class Enfermeiro extends Pessoa{
     @Column(name = "identificador_enfermeiro")
     private String idEnfermeiro;
 
-    @Column(name = "hospital_trabalho")
+    @ManyToOne
+    @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospitalTrabalho;
 
     @Column(name = "e_supervisora")

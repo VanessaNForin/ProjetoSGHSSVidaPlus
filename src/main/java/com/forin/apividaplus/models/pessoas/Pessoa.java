@@ -16,13 +16,13 @@ public abstract class Pessoa {
     @Column(name = "data_de_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "cpf", length = 11, nullable = false)
+    @Column(name = "cpf", nullable = false)
     private String cpf;
 
     @Column(name = "endereco", length = 100)
     private String endereco;
 
-    @Column(name = "telefone", length = 12)
+    @Column(name = "telefone", length = 15)
     private String telefone;
 
     @Column(name = "cadastro_ativo")

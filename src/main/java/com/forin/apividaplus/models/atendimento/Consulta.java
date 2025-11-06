@@ -20,20 +20,22 @@ public class Consulta {
     private String consulta;
 
     @ManyToOne
-    @Column(name = "local", nullable = false)
+    @JoinColumn(name = "clinica_id", nullable = false)
     private Clinica local;
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
 
-    @Column(name = "paciente", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @Column(name = "tipo_consulta")
     private TipoConsulta tipoConsulta;
 
-    @Column(name = "medico")
-    private Medico medico;
+    @ManyToOne
+    @JoinColumn(name = "medico_id", nullable = false)
+    private Medico medicoResponsavel;
 
     @OneToMany(mappedBy = "consultaEmissao")
     @Column(name = "prescricoes")

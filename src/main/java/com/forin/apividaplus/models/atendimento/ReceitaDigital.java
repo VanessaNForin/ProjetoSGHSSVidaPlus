@@ -17,7 +17,7 @@ public class ReceitaDigital {
     private String idReceita;
 
     @ManyToOne
-    @Column(name = "consulta_emissao")
+    @JoinColumn(name = "consulta_id", nullable = false)
     private Consulta consultaEmissao;
 
     @Column(name = "data_emissao", nullable = false)
@@ -27,11 +27,11 @@ public class ReceitaDigital {
     private LocalDate dataVencimento;
 
     @ManyToOne
-    @Column(name = "paciente")
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @ManyToOne
-    @Column(name = "medico_emissor")
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medicoEmissor;
 
     @Column(name = "descricao")

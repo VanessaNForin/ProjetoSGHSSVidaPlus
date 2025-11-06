@@ -19,11 +19,11 @@ public class Internacao {
     private String internacao;
 
     @ManyToOne
-    @Column(name = "paciente", nullable = false)
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @OneToOne
-    @Column(name = "leito", nullable = false)
+    @JoinColumn(name = "leito_id", nullable = false)
     private Leito leito;
 
     @Column(name = "esta_ativo")
@@ -36,11 +36,11 @@ public class Internacao {
     private LocalDateTime dataAlta;
 
     @ManyToOne
-    @Column(name = "medico_responsavel", nullable = false)
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medicoResponsavel;
 
     @ManyToOne
-    @Column(name = "enfermeiro_responsavel", nullable = false)
+    @JoinColumn(name = "enfermeiro_id", nullable = false)
     private Enfermeiro enfermeiroResponsavel;
 
     @Column(name = "prontuario")

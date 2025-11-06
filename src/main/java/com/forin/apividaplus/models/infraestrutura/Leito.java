@@ -14,7 +14,7 @@ public class Leito {
     private String idLeito;
 
     @ManyToOne
-    @Column(name = "hospital", nullable = false)
+    @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
 
     @Column(name = "andar", nullable = false)
@@ -24,7 +24,7 @@ public class Leito {
     private Integer numeroLeito;
 
     @OneToOne
-    @Column(name = "internacao")
+    @JoinColumn(name = "internacao_id", nullable = false)
     private Internacao internacao;
 
 }
