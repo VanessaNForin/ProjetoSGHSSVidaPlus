@@ -1,12 +1,18 @@
-package com.forin.apividaplus.models;
+package com.forin.apividaplus.models.pessoas;
 
+import com.forin.apividaplus.models.atendimento.Consulta;
+import com.forin.apividaplus.models.atendimento.Exame;
+import com.forin.apividaplus.models.atendimento.Internacao;
+import com.forin.apividaplus.models.atendimento.ReceitaDigital;
 import com.forin.apividaplus.models.enums.Convenio;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "pacientes")
+@Data
 public class Paciente extends Pessoa{
 
     @Id

@@ -1,11 +1,15 @@
-package com.forin.apividaplus.models;
+package com.forin.apividaplus.models.pessoas;
 
+import com.forin.apividaplus.models.infraestrutura.Hospital;
+import com.forin.apividaplus.models.atendimento.Internacao;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "enfermeiros")
+@Data
 public class Enfermeiro extends Pessoa{
 
     @Id
@@ -25,6 +29,6 @@ public class Enfermeiro extends Pessoa{
     private String coren;
 
     @OneToMany(mappedBy = "enfermeiroResponsavel")
-    private List<Interncao> interncaosResponsavel;
+    private List<Internacao> interncaosResponsavel;
 
 }

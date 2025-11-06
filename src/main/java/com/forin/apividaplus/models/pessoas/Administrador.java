@@ -1,12 +1,17 @@
-package com.forin.apividaplus.models;
+package com.forin.apividaplus.models.pessoas;
 
+import com.forin.apividaplus.models.infraestrutura.Clinica;
+import com.forin.apividaplus.models.infraestrutura.Hospital;
+import com.forin.apividaplus.models.infraestrutura.Laboratorio;
 import com.forin.apividaplus.models.enums.Departamento;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "administradores")
+@Data
 public class Administrador extends Pessoa{
 
     @Id

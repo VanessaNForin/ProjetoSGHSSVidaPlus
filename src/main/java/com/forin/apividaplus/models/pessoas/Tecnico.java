@@ -1,10 +1,15 @@
-package com.forin.apividaplus.models;
+package com.forin.apividaplus.models.pessoas;
 
+import com.forin.apividaplus.models.atendimento.Exame;
 import com.forin.apividaplus.models.enums.EspecialidadeTecnica;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Entity
+@Table(name = "tecnicos")
+@Data
 public class Tecnico extends Pessoa{
 
     @Id

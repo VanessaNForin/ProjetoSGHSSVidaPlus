@@ -1,4 +1,4 @@
-package com.forin.apividaplus.models;
+package com.forin.apividaplus.models.pessoas;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
