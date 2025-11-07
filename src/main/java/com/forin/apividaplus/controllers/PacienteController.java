@@ -29,4 +29,9 @@ public class PacienteController {
         return pacienteService.consultarPaciente(idPaciente);
     }
 
+    @DeleteMapping("/{id}")
+    public void deletarPaciente(@PathVariable("id") String idPaciente){
+        pacienteService.deletarPaciente(idPaciente);
+    }
+
 }

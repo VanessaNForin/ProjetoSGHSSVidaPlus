@@ -6,10 +6,6 @@ import com.forin.apividaplus.repositories.PacienteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.forin.apividaplus.services.Utils.criarId;
 import static com.forin.apividaplus.services.Utils.formatarData;
@@ -21,7 +17,7 @@ public class PacienteService {
     private PacienteRepository pacienteRepository;
 
     @Transactional
-    public Paciente cadastrarPaciente(@RequestBody PacienteDTO paciente){
+    public Paciente cadastrarPaciente(PacienteDTO paciente){
         Paciente novoPaciente = new Paciente();
 
         novoPaciente.setIdPaciente(criarId(Paciente.class, pacienteRepository.count()));
@@ -39,13 +35,12 @@ public class PacienteService {
         return pacienteRepository.save(novoPaciente);
     }
 
-    @GetMapping("/{id}")
-    public Paciente consultarPaciente(@PathVariable("id") String idPaciente){
+    public Paciente consultarPaciente(String idPaciente){
         return pacienteRepository.findById(idPaciente).orElse(null);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarPaciente(@PathVariable("id") String idPaciente){
+
+    public void deletarPaciente(String idPaciente){
         pacienteRepository.deleteById(idPaciente);
     }
 }

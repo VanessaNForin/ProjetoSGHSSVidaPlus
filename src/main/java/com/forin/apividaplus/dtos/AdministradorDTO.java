@@ -1,15 +1,21 @@
 package com.forin.apividaplus.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.forin.apividaplus.models.enums.Convenio;
-import jakarta.validation.constraints.*;
+import com.forin.apividaplus.models.enums.Departamento;
+import com.forin.apividaplus.models.infraestrutura.Clinica;
+import com.forin.apividaplus.models.infraestrutura.Hospital;
+import com.forin.apividaplus.models.infraestrutura.Laboratorio;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
 @Data
-public class PacienteDTO {
+public class AdministradorDTO {
 
     @NotBlank(message = "O campo NOME COMPLETO é obrigatório")
     @Length(max = 50)
@@ -33,16 +39,6 @@ public class PacienteDTO {
     @Pattern(regexp = "^\\(?[1-9]{2}\\)?\\s?9?\\d{4}-?\\d{4}$", message = "Formato de telefone inválido")
     private String telefone;
 
-    @NotBlank(message = "O campo PROFISSÃO é obrigatório")
-    @Length(max = 20)
-    private String profissao;
-
-    @NotBlank(message = "O campo TIPO DE CONVÊNIO é obrigatório")
-    private Convenio convenio;
-
-    @Length(max = 50)
-    private String contatoEmergencia;
-
-    private List<String> alergias;
-
+    @NotBlank(message = "O campo DEPARTAMENTO é obrigatório")
+    private Departamento departamento;
 }

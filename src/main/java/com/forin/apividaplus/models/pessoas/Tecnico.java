@@ -20,7 +20,7 @@ public class Tecnico extends Pessoa{
     @Column(name = "especialidade_tecnica", nullable = false)
     private EspecialidadeTecnica especialidade;
 
-    //Só existe eme memória, não é salvo no banco de dados
+    //Só existe em memória, não é salvo no banco de dados
     @Transient
     private String numeroRegistroProfissional;
 
@@ -29,11 +29,4 @@ public class Tecnico extends Pessoa{
 
     @OneToMany(mappedBy = "tecnicoResponsavel")
     private List<Exame> examesResponsavel;
-
-
-
-
-
-
-
 }
