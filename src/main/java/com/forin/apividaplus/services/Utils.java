@@ -16,6 +16,11 @@ public class Utils {
             case "Enfermeiro" -> prefixo = "ENF";
             case "Tecnico" -> prefixo = "TEC";
             case "Administrador" -> prefixo = "ADM";
+            case "Hospital" -> prefixo = "HOS";
+            case "Clinica" -> prefixo = "CLI";
+            case "Laboratorio" -> prefixo = "LAB";
+            case "Leito" -> prefixo = "LEI";
+            case "ReceitaDigital" -> prefixo = "RD";
             default -> prefixo = "GEN";
             }
 

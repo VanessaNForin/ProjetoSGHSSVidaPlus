@@ -1,5 +1,6 @@
 package com.forin.apividaplus.models.infraestrutura;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.forin.apividaplus.models.pessoas.Administrador;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Hospital {
     private String telefone;
 
     @OneToMany(mappedBy = "hospital")
+    @JsonManagedReference
     private List<Leito> leitos;
 
     @ManyToMany(mappedBy = "hospitais")

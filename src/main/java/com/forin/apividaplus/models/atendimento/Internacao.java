@@ -16,7 +16,7 @@ public class Internacao {
 
     @Id
     @Column(name = "identificador_internacao")
-    private String internacao;
+    private String idInternacao;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
