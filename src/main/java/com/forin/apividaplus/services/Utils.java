@@ -21,6 +21,7 @@ public class Utils {
             case "Laboratorio" -> prefixo = "LAB";
             case "Leito" -> prefixo = "LEI";
             case "ReceitaDigital" -> prefixo = "RD";
+            case "Internacao" -> prefixo = "INT";
             default -> prefixo = "GEN";
             }
 
@@ -31,6 +32,11 @@ public class Utils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         return LocalDate.parse(data, formatter);
+    }
+
+    public static String formatarDataString(LocalDate localDate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return formatter.format(localDate);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.forin.apividaplus.models.atendimento;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 import com.forin.apividaplus.models.pessoas.Enfermeiro;
 import com.forin.apividaplus.models.pessoas.Medico;
@@ -22,8 +23,9 @@ public class Internacao {
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "leito_id", nullable = false)
+    @JsonBackReference
     private Leito leito;
 
     @Column(name = "esta_ativo")
@@ -37,13 +39,16 @@ public class Internacao {
 
     @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
+    @JsonBackReference
     private Medico medicoResponsavel;
 
     @ManyToOne
     @JoinColumn(name = "enfermeiro_id", nullable = false)
+    @JsonBackReference
     private Enfermeiro enfermeiroResponsavel;
 
-    @Column(name = "prontuario")
+    @Lob
+    @Column(name = "prontuario", columnDefinition = "TEXT")
     private String prontuario;
 
 }

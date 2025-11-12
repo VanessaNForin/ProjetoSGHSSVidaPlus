@@ -6,6 +6,8 @@ import com.forin.apividaplus.models.atendimento.Internacao;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "leitos")
 @Data
@@ -26,8 +28,8 @@ public class Leito {
     @Column(name = "numero_leito", nullable = false)
     private Integer numeroLeito;
 
-    @OneToOne
-    @JoinColumn(name = "internacao_id")
-    private Internacao internacao;
+    @OneToMany(mappedBy = "leito")
+    @JsonManagedReference
+    private List<Internacao> internacao;
 
 }

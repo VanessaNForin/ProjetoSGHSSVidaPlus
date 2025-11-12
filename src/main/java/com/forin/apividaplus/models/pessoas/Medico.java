@@ -1,5 +1,6 @@
 package com.forin.apividaplus.models.pessoas;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.forin.apividaplus.models.atendimento.Consulta;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import com.forin.apividaplus.models.atendimento.ReceitaDigital;
@@ -29,10 +30,10 @@ public class Medico extends Pessoa{
     private List<Consulta> consultasRealizadas;
 
     @OneToMany(mappedBy = "medicoResponsavel")
+    @JsonManagedReference
     private List<Internacao> internacoesRealizadas;
 
     @OneToMany(mappedBy = "medicoEmissor")
     private List<ReceitaDigital> receitasEmitidas;
-
 
 }

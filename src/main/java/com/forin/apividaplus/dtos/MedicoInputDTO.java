@@ -10,7 +10,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public class MedicoDTO {
+public class MedicoInputDTO {
 
     @NotBlank(message = "O campo NOME COMPLETO é obrigatório")
     @Length(max = 50)

@@ -1,5 +1,6 @@
 package com.forin.apividaplus.models.pessoas;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.forin.apividaplus.models.atendimento.Consulta;
 import com.forin.apividaplus.models.atendimento.Exame;
 import com.forin.apividaplus.models.atendimento.Internacao;

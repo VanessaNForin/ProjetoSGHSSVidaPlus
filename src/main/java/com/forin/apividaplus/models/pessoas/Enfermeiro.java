@@ -1,5 +1,6 @@
 package com.forin.apividaplus.models.pessoas;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.forin.apividaplus.models.infraestrutura.Hospital;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import jakarta.persistence.*;
@@ -30,6 +31,7 @@ public class Enfermeiro extends Pessoa{
     private String coren;
 
     @OneToMany(mappedBy = "enfermeiroResponsavel")
+    @JsonManagedReference
     private List<Internacao> interncaosResponsavel;
 
 }

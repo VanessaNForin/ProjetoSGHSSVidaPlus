@@ -1,6 +1,7 @@
 package com.forin.apividaplus.services;
 
-import com.forin.apividaplus.dtos.InternacaoDTO;
+import com.forin.apividaplus.dtos.InternacaoInputDTO;
+import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 import com.forin.apividaplus.models.pessoas.Enfermeiro;
@@ -11,9 +12,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.forin.apividaplus.mappers.InternacaoMapper.toDTO;
 import static com.forin.apividaplus.services.Utils.criarId;
 
 @Service
@@ -35,7 +36,7 @@ public class InternacaoService {
     private EnfermeiroRepository enfermeiroRepository;
 
     @Transactional
-    public Internacao cadastrarInternacao(InternacaoDTO internacao){
+    public Internacao cadastrarInternacao(InternacaoInputDTO internacao){
         Internacao novaInternacao = new Internacao();
 
         novaInternacao.setIdInternacao(criarId(Internacao.class, internacaoRepository.count()));
@@ -49,35 +50,81 @@ public class InternacaoService {
         return internacaoRepository.save(novaInternacao);
     }
 
-    //public Internacao darAlta()
+    public InternacaoResponseDTO consultarInternacao(String idInternacao){
+        Internacao internacao = internacaoRepository.findById(idInternacao)
+                .orElseThrow(() -> new RuntimeException("Internação não encontrada"));
+
+        return toDTO(internacao);
+    }
+
+    public InternacaoResponseDTO darAlta(String idInternacao){
+        Internacao internacao = internacaoRepository.findById(idInternacao)
+                .orElseThrow(()-> new RuntimeException("Internação não encontrada"));
+        internacao.setIsAtivo(false);
+        internacao.setDataAlta(LocalDateTime.now());
+        internacaoRepository.save(internacao);
+
+        return toDTO(internacao);
+    }
 
     private Paciente validarPaciente(String idPaciente){
-        return pacienteRepository.findById(idPaciente).orElseThrow(
+        Paciente paciente =  pacienteRepository.findById(idPaciente).orElseThrow(
                 ()-> new RuntimeException("Paciente não encontrado")
         );
+
+        boolean pacienteEmOutroLeito = paciente.getInternacoes()
+                .stream().anyMatch(Internacao::getIsAtivo);
+
+        if (pacienteEmOutroLeito){
+            throw new RuntimeException("Paciente já está em outro leito");
+        }
+
+        return paciente;
     }
 
     private Leito validarLeito(String idLeito){
-        Leito leito = leitoRepository.findById(idLeito).orElse(null);
-        if (leito == null){
-            throw new RuntimeException("Leito não existe");
-        } else if(leito.getInternacao() != null){
+        Leito leito = leitoRepository.findById(idLeito)
+                .orElseThrow(() -> new RuntimeException("Leito não existe"));
+
+        boolean leitoOcupado = leito.getInternacao()
+                .stream().anyMatch(Internacao::getIsAtivo);
+
+        if (leitoOcupado) {
             throw new RuntimeException("Leito já ocupado por outra internação");
-        } else {
-            return leito;
         }
+
+        return leito;
     }
 
     private Medico validarMedico(String idMedico){
-        return medicoRepository.findById(idMedico).orElseThrow(
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(
                 () -> new RuntimeException("Médico não encontrado")
         );
+
+        boolean medicoResponsavelPorOutraInternacao = medico.getInternacoesRealizadas()
+                .stream().anyMatch(Internacao::getIsAtivo);
+
+        if (medicoResponsavelPorOutraInternacao){
+            throw new RuntimeException("Médico já está responsável por outra internação");
+        }
+
+        return medico;
     }
 
+
     private Enfermeiro validarEnfermeiro(String idEnfermeiro){
-        return enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
+        Enfermeiro enfermeiro = enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
                 ()-> new RuntimeException("Enfermeiro não encontrado")
         );
+
+        boolean enfermeiroResponsavelPorOutraInternacao = enfermeiro.getInterncaosResponsavel()
+                .stream().anyMatch(Internacao::getIsAtivo);
+
+        if (enfermeiroResponsavelPorOutraInternacao){
+            throw new RuntimeException("Enfermeiro já está responsável por outra internação");
+        }
+
+        return enfermeiro;
     }
 
 }
