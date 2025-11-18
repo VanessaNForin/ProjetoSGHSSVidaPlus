@@ -29,6 +29,4 @@ public class InternacaoController {
         return internacaoService.consultarInternacao(idInternacao);
     }
 
-
-
 }

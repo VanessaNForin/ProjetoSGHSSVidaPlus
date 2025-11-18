@@ -17,7 +17,7 @@ public class Consulta {
 
     @Id
     @Column(name = "identificador_consulta")
-    private String consulta;
+    private String idConsulta;
 
     @ManyToOne
     @JoinColumn(name = "clinica_id", nullable = false)
@@ -31,6 +31,7 @@ public class Consulta {
     private Paciente paciente;
 
     @Column(name = "tipo_consulta")
+    @Enumerated(EnumType.STRING)
     private TipoConsulta tipoConsulta;
 
     @ManyToOne

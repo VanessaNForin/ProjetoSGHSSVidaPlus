@@ -41,10 +41,9 @@ public class EnfermeiroController {
         enfermeiroService.atualizarProntuario(idEnfermeiro,idInternacao,novoProntuario);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarEnfermeiro(@PathVariable("id") String idEnfermeiro){
-        enfermeiroService.deletarEnfermeiro(idEnfermeiro);
-    }
-
+//    @DeleteMapping("/{id}")
+//    public void deletarEnfermeiro(@PathVariable("id") String idEnfermeiro){
+//        enfermeiroService.deletarEnfermeiro(idEnfermeiro);
+//    }
 
 }

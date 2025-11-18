@@ -79,6 +79,12 @@ public class InternacaoService {
             throw new RuntimeException("Paciente já está em outro leito");
         }
 
+        boolean pacienteAtivo = paciente.getCadastroAtivo().equals(true);
+
+        if(!pacienteAtivo){
+            throw new RuntimeException("Paciente não tem cadastro ativo");
+        }
+
         return paciente;
     }
 
@@ -108,6 +114,12 @@ public class InternacaoService {
             throw new RuntimeException("Médico já está responsável por outra internação");
         }
 
+        boolean medicoAtivo = medico.getCadastroAtivo().equals(true);
+
+        if(!medicoAtivo){
+            throw new RuntimeException("Médico não tem cadastro ativo");
+        }
+
         return medico;
     }
 
@@ -122,6 +134,12 @@ public class InternacaoService {
 
         if (enfermeiroResponsavelPorOutraInternacao){
             throw new RuntimeException("Enfermeiro já está responsável por outra internação");
+        }
+
+        boolean enfermeiroAtivo = enfermeiro.getCadastroAtivo().equals(true);
+
+        if(!enfermeiroAtivo){
+            throw new RuntimeException("Enfermeiro não tem cadastro ativo");
         }
 
         return enfermeiro;

@@ -23,8 +23,8 @@ public class TecnicoController {
         return tecnicoService.consultarTecnico(idTecnico);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarTecnico(@PathVariable("id") String idTecnico){
-        tecnicoService.deletarTecnico(idTecnico);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deletarTecnico(@PathVariable("id") String idTecnico){
+//        tecnicoService.deletarTecnico(idTecnico);
+//    }
 }

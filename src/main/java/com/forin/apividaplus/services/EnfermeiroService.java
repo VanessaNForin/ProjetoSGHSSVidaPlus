@@ -3,7 +3,6 @@ package com.forin.apividaplus.services;
 import com.forin.apividaplus.dtos.EnfermeiroInputDTO;
 import com.forin.apividaplus.dtos.EnfermeiroResponseDTO;
 import com.forin.apividaplus.dtos.InternacaoResponseDTO;
-import com.forin.apividaplus.mappers.EnfermeiroMapper;
 import com.forin.apividaplus.mappers.InternacaoMapper;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import com.forin.apividaplus.models.pessoas.Enfermeiro;
@@ -40,7 +39,7 @@ public class EnfermeiroService {
 
         novoEnfermeiro.setIdEnfermeiro(criarId(Enfermeiro.class, enfermeiroRepository.count()));
         novoEnfermeiro.setCadastroAtivo(true);
-        novoEnfermeiro.setDataNascimento(formatarData(enfermeiro.getDataNascimento()));
+        novoEnfermeiro.setDataNascimento(validarDataNascimento(enfermeiro.getDataNascimento()));
         novoEnfermeiro.setHospitalTrabalho(
                 hospitalRepository.findById(enfermeiro.getIdHospitalTrabalho())
                         .orElseThrow(() -> new RuntimeException("Hospital não encontrado"))
@@ -57,9 +56,9 @@ public class EnfermeiroService {
         return toDTO(enfermeiro);
     }
 
-    public void deletarEnfermeiro(String idEnfermeiro){
-        enfermeiroRepository.deleteById(idEnfermeiro);
-    }
+//    public void deletarEnfermeiro(String idEnfermeiro){
+//        enfermeiroRepository.deleteById(idEnfermeiro);
+//    }
 
     public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(String idEnfermeiro){
         Enfermeiro enfermeiro = enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
@@ -68,7 +67,7 @@ public class EnfermeiroService {
 
         return enfermeiro.getInterncaosResponsavel()
                 .stream()
-                .map(internacao -> InternacaoMapper.toDTO(internacao))
+                .map(InternacaoMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

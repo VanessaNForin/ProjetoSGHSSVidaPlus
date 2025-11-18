@@ -1,5 +1,6 @@
 package com.forin.apividaplus.controllers;
 
+import com.forin.apividaplus.dtos.ConsultaResponseDTO;
 import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.dtos.PacienteInputDTO;
 import com.forin.apividaplus.dtos.PacienteResponseDTO;
@@ -32,10 +33,20 @@ public class PacienteController {
         return pacienteService.consultarInternacoes(idPaciente);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarPaciente(@PathVariable("id") String idPaciente){
-        pacienteService.deletarPaciente(idPaciente);
+    @GetMapping("/{id}/consultas")
+    public List<ConsultaResponseDTO> consultarConsultas(@PathVariable("id") String idPaciente){
+        return pacienteService.consultarConsultas(idPaciente);
     }
+
+    @PatchMapping("/{id}/ativo")
+    public void desativarCadastroPaciente(@PathVariable("id") String idPaciente){
+        pacienteService.desativarCadastroPaciente(idPaciente);
+    }
+
+//    @DeleteMapping("/{id}")
+//    public void deletarPaciente(@PathVariable("id") String idPaciente){
+//        pacienteService.deletarPaciente(idPaciente);
+//    }
 
 
 }

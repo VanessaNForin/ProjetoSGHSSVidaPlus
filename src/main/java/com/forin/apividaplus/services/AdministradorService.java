@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.forin.apividaplus.services.Utils.criarId;
-import static com.forin.apividaplus.services.Utils.formatarData;
 
 @Service
 public class AdministradorService {
@@ -24,7 +23,7 @@ public class AdministradorService {
         novoAdministrador.setIdAdministrador(criarId(Administrador.class, administradorRepository.count()));
         novoAdministrador.setCadastroAtivo(true);
         novoAdministrador.setNomeCompleto(administrador.getNomeCompleto());
-        novoAdministrador.setDataNascimento(formatarData(administrador.getDataNascimento()));
+        //novoAdministrador.setDataNascimento(formatarData(administrador.getDataNascimento()));
         novoAdministrador.setCpf(administrador.getCpf());
         novoAdministrador.setEndereco(administrador.getEndereco());
         novoAdministrador.setTelefone(administrador.getTelefone());
@@ -37,8 +36,8 @@ public class AdministradorService {
         return administradorRepository.findById(idAdministrador).orElseThrow(()-> new RuntimeException("Administrador não encontrado"));
     }
 
-    public void deletarAdministrador(String idAdministrador){
-        administradorRepository.deleteById(idAdministrador);
-    }
+//    public void deletarAdministrador(String idAdministrador){
+//        administradorRepository.deleteById(idAdministrador);
+//    }
 
 }

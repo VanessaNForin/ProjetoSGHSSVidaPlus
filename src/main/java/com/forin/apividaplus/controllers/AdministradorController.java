@@ -24,8 +24,8 @@ public class AdministradorController {
         return administradorService.consultarAdministrador(idAdministrador);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarEnfermeiro(@PathVariable("id") String idAdministrador){
-        administradorService.deletarAdministrador(idAdministrador);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deletarEnfermeiro(@PathVariable("id") String idAdministrador){
+//        administradorService.deletarAdministrador(idAdministrador);
+//    }
 }

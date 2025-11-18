@@ -8,8 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.forin.apividaplus.services.Utils.criarId;
-import static com.forin.apividaplus.services.Utils.formatarData;
+import static com.forin.apividaplus.services.Utils.*;
 
 @Service
 public class TecnicoService {
@@ -24,7 +23,7 @@ public class TecnicoService {
         novoTecnico.setIdTecnico(criarId(Tecnico.class, tecnicoRepository.count()));
         novoTecnico.setCadastroAtivo(true);
         novoTecnico.setNomeCompleto(tecnico.getNomeCompleto());
-        novoTecnico.setDataNascimento(formatarData(tecnico.getDataNascimento()));
+        novoTecnico.setDataNascimento(validarDataNascimento(tecnico.getDataNascimento()));
         novoTecnico.setCpf(tecnico.getCpf());
         novoTecnico.setEndereco(tecnico.getEndereco());
         novoTecnico.setTelefone(tecnico.getTelefone());
@@ -38,9 +37,9 @@ public class TecnicoService {
         return tecnicoRepository.findById(idTecnico).orElseThrow(()-> new RuntimeException("Tecnico não encontrado"));
     }
 
-    public void deletarTecnico(String idTecnico) {
-        tecnicoRepository.deleteById(idTecnico);
-    }
+//    public void deletarTecnico(String idTecnico) {
+//        tecnicoRepository.deleteById(idTecnico);
+//    }
 
     private String formatarRegistroProfissional(EspecialidadeTecnica especialidade, String numeroRegistroProfissional){
         String sufixo = especialidade.getConselho();

@@ -34,6 +34,7 @@ public class ReceitaDigital {
     @JoinColumn(name = "medico_id", nullable = false)
     private Medico medicoEmissor;
 
-    @Column(name = "descricao")
+    @Lob
+    @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
 }

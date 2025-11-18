@@ -1,6 +1,7 @@
 package com.forin.apividaplus.services;
 
-import com.forin.apividaplus.dtos.LeitoDTO;
+import com.forin.apividaplus.dtos.LeitoInputDTO;
+import com.forin.apividaplus.dtos.LeitoResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Hospital;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 import com.forin.apividaplus.repositories.HospitalRepository;
@@ -9,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.forin.apividaplus.mappers.LeitoMapper.toDTO;
+import static com.forin.apividaplus.mappers.LeitoMapper.toModel;
 import static com.forin.apividaplus.services.Utils.criarId;
 
 @Service
@@ -21,14 +24,11 @@ public class LeitoService {
     private HospitalRepository hospitalRepository;
 
     @Transactional
-    public Leito cadastrarLeito(LeitoDTO leito){
-        Leito novoLeito = new Leito();
+    public Leito cadastrarLeito(LeitoInputDTO leito){
+        Leito novoLeito = toModel(leito);
 
         novoLeito.setIdLeito(criarId(Leito.class, leitoRepository.count()));
         novoLeito.setHospital(validarHospital(leito.getIdHospital()));
-        novoLeito.setAndar(leito.getAndar());
-        novoLeito.setNumeroLeito(leito.getNumeroLeito());
-
 
         return leitoRepository.save(novoLeito);
     }
@@ -37,5 +37,25 @@ public class LeitoService {
         return hospitalRepository.findById(idHospital).orElseThrow(
                 ()-> new RuntimeException("Hospital não encontrado"));
     }
+
+    public LeitoResponseDTO consultarLeito(String idLeito){
+        Leito leito = leitoRepository.findById(idLeito).orElseThrow(
+                () -> new RuntimeException("Leito não encontrado")
+        );
+
+        return toDTO(leito);
+    }
+
+//    public void deletarLeito(String idLeito){
+//        Leito leito = leitoRepository.findById(idLeito).orElseThrow(
+//                ()-> new RuntimeException("Leito não encontrado")
+//        );
+//
+//        if(!leito.getInternacao().isEmpty()){
+//            throw new RuntimeException("Não é possível excluir! O leito possui internações cadastradas");
+//        }
+//
+//        leitoRepository.delete(leito);
+//    }
 
 }

@@ -1,5 +1,6 @@
 package com.forin.apividaplus.controllers;
 
+import com.forin.apividaplus.dtos.ConsultaResponseDTO;
 import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.dtos.MedicoInputDTO;
 import com.forin.apividaplus.dtos.MedicoResponseDTO;
@@ -19,17 +20,17 @@ public class MedicoController {
     private MedicoService medicoService;
 
     @PostMapping
-    public Medico cadastrarMedico(@RequestBody MedicoInputDTO medico){
+    public Medico cadastrarMedico(@RequestBody MedicoInputDTO medico) {
         return medicoService.cadastrarMedico(medico);
     }
 
     @GetMapping("/{id}")
-    public MedicoResponseDTO consultarMedico(@PathVariable("id") String idMedico){
+    public MedicoResponseDTO consultarMedico(@PathVariable("id") String idMedico) {
         return medicoService.consultarMedico(idMedico);
     }
 
     @GetMapping("/{id}/internacoes")
-    public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(@PathVariable("id") String idMedico){
+    public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(@PathVariable("id") String idMedico) {
         return medicoService.consultarInternacoesResponsaveis(idMedico);
     }
 
@@ -37,14 +38,19 @@ public class MedicoController {
     public void atualizarProntuario(
             @PathVariable("idMedico") String idMedico,
             @PathVariable("idInternacao") String idInternacao,
-            @RequestBody String novoProntuario){
-        medicoService.atualizarProntuario(idMedico,idInternacao,novoProntuario);
+            @RequestBody String novoProntuario) {
+        medicoService.atualizarProntuario(idMedico, idInternacao, novoProntuario);
     }
 
-    @DeleteMapping("/{id}")
-    private void deletarMedico(@PathVariable("id") String idMedico){
-        medicoService.deletarMedico(idMedico);
+    @GetMapping("/{id}/consultas")
+    public List<ConsultaResponseDTO> consultarConsultasResponsavel(@PathVariable("id") String idMedico){
+        return medicoService.consultarConsultasResponsavel(idMedico);
     }
+
+//    @DeleteMapping("/{id}")
+//    private void deletarMedico(@PathVariable("id") String idMedico){
+//        medicoService.deletarMedico(idMedico);
+//    }
 
 
 

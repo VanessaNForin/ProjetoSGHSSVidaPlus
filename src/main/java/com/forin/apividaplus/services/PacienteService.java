@@ -1,9 +1,9 @@
 package com.forin.apividaplus.services;
 
-import com.forin.apividaplus.dtos.InternacaoResponseDTO;
-import com.forin.apividaplus.dtos.PacienteInputDTO;
-import com.forin.apividaplus.dtos.PacienteResponseDTO;
+import com.forin.apividaplus.dtos.*;
+import com.forin.apividaplus.mappers.ConsultaMapper;
 import com.forin.apividaplus.mappers.InternacaoMapper;
+import com.forin.apividaplus.mappers.ReceitaDigitalMapper;
 import com.forin.apividaplus.models.pessoas.Paciente;
 import com.forin.apividaplus.repositories.PacienteRepository;
 import jakarta.transaction.Transactional;
@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.forin.apividaplus.mappers.PacienteMapper.toDTO;
 import static com.forin.apividaplus.mappers.PacienteMapper.toModel;
-import static com.forin.apividaplus.services.Utils.criarId;
-import static com.forin.apividaplus.services.Utils.formatarData;
+import static com.forin.apividaplus.services.Utils.*;
 
 @Service
 public class PacienteService {
@@ -30,7 +29,7 @@ public class PacienteService {
 
         novoPaciente.setIdPaciente(criarId(Paciente.class, pacienteRepository.count()));
         novoPaciente.setCadastroAtivo(true);
-        novoPaciente.setDataNascimento(formatarData(paciente.getDataNascimento()));
+        novoPaciente.setDataNascimento(validarDataNascimento(paciente.getDataNascimento()));
 
         return pacienteRepository.save(novoPaciente);
     }
@@ -42,9 +41,9 @@ public class PacienteService {
         return toDTO(paciente);
     }
 
-    public void deletarPaciente(String idPaciente){
-        pacienteRepository.deleteById(idPaciente);
-    }
+//    public void deletarPaciente(String idPaciente){
+//        pacienteRepository.deleteById(idPaciente);
+//    }
 
     public List<InternacaoResponseDTO> consultarInternacoes(String idPaciente){
         Paciente paciente = pacienteRepository.findById(idPaciente)
@@ -54,5 +53,39 @@ public class PacienteService {
                 .stream()
                 .map(InternacaoMapper::toDTO) //Mesma coisa que internacao -> InternacaoMapper.toDTO(internacao)
                 .collect(Collectors.toList());
+    }
+
+    public List<ConsultaResponseDTO> consultarConsultas(String idPaciente){
+        Paciente paciente = pacienteRepository.findById(idPaciente)
+                .orElseThrow(()-> new RuntimeException("Paciente não encontrado"));
+
+        return paciente.getConsultas()
+                .stream()
+                .map(ConsultaMapper::toDTO) //Mesma coisa que internacao -> InternacaoMapper.toDTO(internacao)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReceitaDigitalResponseDTO> consultarReceitas(String idPaciente){
+        Paciente paciente = pacienteRepository.findById(idPaciente)
+                .orElseThrow(()-> new RuntimeException("Paciente não encontrado"));
+
+        return paciente.getReceitas()
+                .stream()
+                .map(ReceitaDigitalMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    public void desativarCadastroPaciente(String idPaciente){
+        Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
+                ()-> new RuntimeException("Paciente não encontrado")
+        );
+
+        if (!paciente.getCadastroAtivo()){
+            throw new RuntimeException("Paciente já está com cadastro desativado");
+        } else {
+            paciente.setCadastroAtivo(false);
+            pacienteRepository.save(paciente);
+        }
     }
 }

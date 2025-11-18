@@ -18,8 +18,8 @@ public class TecnicoDTO {
     private String nomeCompleto;
 
     @NotBlank(message = "O campo DATA DE NASCIMENTO é obrigatório")
-    @PastOrPresent(message = "O campo DATA DE NASCIMENTO não pode ser no futuro")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @Pattern(regexp = "^(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[1-2])/(19\\d{2}|20\\d{2}|2100)$", message = "Formato inválido")
     private String dataNascimento;
 
     @NotBlank(message = "O campo CPF é obrigatório")

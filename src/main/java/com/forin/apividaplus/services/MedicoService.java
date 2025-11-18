@@ -1,10 +1,9 @@
 package com.forin.apividaplus.services;
 
-import com.forin.apividaplus.dtos.InternacaoResponseDTO;
-import com.forin.apividaplus.dtos.MedicoInputDTO;
-import com.forin.apividaplus.dtos.MedicoResponseDTO;
+import com.forin.apividaplus.dtos.*;
+import com.forin.apividaplus.mappers.ConsultaMapper;
 import com.forin.apividaplus.mappers.InternacaoMapper;
-import com.forin.apividaplus.mappers.MedicoMapper;
+import com.forin.apividaplus.mappers.ReceitaDigitalMapper;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import com.forin.apividaplus.models.pessoas.Medico;
 import com.forin.apividaplus.repositories.InternacaoRepository;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +35,7 @@ public class MedicoService {
 
         novoMedico.setIdMedico(criarId(Medico.class, medicoRepository.count()));
         novoMedico.setCadastroAtivo(true);
-        novoMedico.setDataNascimento(formatarData(medico.getDataNascimento()));
+        novoMedico.setDataNascimento(validarDataNascimento(medico.getDataNascimento()));
 
         return medicoRepository.save(novoMedico);
     }
@@ -50,9 +48,9 @@ public class MedicoService {
         return toDTO(medico);
     }
 
-    public void deletarMedico(String idMedico){
-        medicoRepository.deleteById(idMedico);
-    }
+//    public void deletarMedico(String idMedico){
+//        medicoRepository.deleteById(idMedico);
+//    }
 
     public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(String idMedico){
         Medico medico = medicoRepository.findById(idMedico).orElseThrow(
@@ -61,9 +59,20 @@ public class MedicoService {
 
         return medico.getInternacoesRealizadas()
                 .stream()
-                .map(internacao -> InternacaoMapper.toDTO(internacao))
+                .map(InternacaoMapper::toDTO)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<ConsultaResponseDTO> consultarConsultasResponsavel(String idMedico){
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(
+                ()-> new RuntimeException("Médico não encontrado")
+        );
+
+        return medico.getConsultasRealizadas()
+                .stream()
+                .map(ConsultaMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public void atualizarProntuario(String idMedico, String idInternacao, String novoProntuario){
@@ -89,6 +98,17 @@ public class MedicoService {
         }
 
         internacaoRepository.save(internacao);
+    }
+
+    public List<ReceitaDigitalResponseDTO> consultarReceitasEmitidas(String idMedico){
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(
+                ()-> new RuntimeException("Médico não encontrado")
+        );
+
+        return medico.getReceitasEmitidas()
+                .stream()
+                .map(ReceitaDigitalMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
 }

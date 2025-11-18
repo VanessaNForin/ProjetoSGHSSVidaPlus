@@ -151,4 +151,89 @@ INSERT INTO internacoes (
     'Paciente pós-operatório de apendicectomia. Recuperação estável. Mantido jejum nas primeiras 12h e hidratação venosa contínua.'
 );
 
+-- CLÍNICA
+
+INSERT INTO clinicas (
+    identificador_clinica,
+    nome_clinica,
+    endereco,
+    telefone
+) VALUES (
+    'CLI0001',
+    'Clínica Central VidaPlus',
+    'Rua das Flores, 125 - Centro',
+    '(11) 3456-7890'
+);
+
+-- CONSULTAS
+
+INSERT INTO consultas (
+    identificador_consulta,
+    clinica_id,
+    data_hora,
+    paciente_id,
+    tipo_consulta,
+    medico_id
+) VALUES
+(
+    'CON0001',
+    'CLI0001',
+    '2025-01-20T14:00:00',
+    'PAC0001',
+    'RETORNO',
+    'MED0001'
+);
+
+INSERT INTO consultas (
+    identificador_consulta,
+    clinica_id,
+    data_hora,
+    paciente_id,
+    tipo_consulta,
+    medico_id
+) VALUES
+(
+    'CON0002',
+    'CLI0001',
+    '2025-01-22T08:15:00',
+    'PAC0002',
+    'EMERGENCIA',
+    'MED0002'
+);
+
+INSERT INTO consultas (
+    identificador_consulta,
+    clinica_id,
+    data_hora,
+    paciente_id,
+    tipo_consulta,
+    medico_id
+) VALUES
+(
+    'CON0003',
+    'CLI0001',
+    '2025-02-01T10:45:00',
+    'PAC0001',
+    'ROTINA',
+    'MED0001'
+);
+
+INSERT INTO consultas (
+    identificador_consulta,
+    clinica_id,
+    data_hora,
+    paciente_id,
+    tipo_consulta,
+    medico_id
+) VALUES
+(
+    'CON0004',
+    'CLI0001',
+    '2025-02-10T16:30:00',
+    'PAC0002',
+    'RETORNO',
+    'MED0002'
+);
+
+
 

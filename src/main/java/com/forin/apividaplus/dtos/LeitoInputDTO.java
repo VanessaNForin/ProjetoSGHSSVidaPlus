@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class LeitoDTO {
+public class LeitoInputDTO {
 
     @NotBlank(message = "O campo ID HOSPITAL é obrigatório")
     private String idHospital;
