@@ -1,17 +1,15 @@
 package com.forin.apividaplus.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.forin.apividaplus.models.enums.EspecialidadeMedica;
 import com.forin.apividaplus.models.enums.EspecialidadeTecnica;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public class TecnicoDTO {
+public class TecnicoInputDTO {
 
     @NotBlank(message = "O campo NOME COMPLETO é obrigatório")
     @Length(max = 50)

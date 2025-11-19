@@ -25,6 +25,7 @@ public class Laboratorio {
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_exame_ofertado", nullable = false)
     private CategoriaExame tipoExameOfertado;
 

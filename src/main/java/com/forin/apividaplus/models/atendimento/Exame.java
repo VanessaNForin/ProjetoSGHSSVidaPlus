@@ -22,6 +22,10 @@ public class Exame {
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria_exame", nullable = false)
+    private CategoriaExame categoriaExame;
+
     @ManyToOne
     @JoinColumn(name = "laboratorio_id", nullable = false)
     private Laboratorio laboratorio;
@@ -33,14 +37,13 @@ public class Exame {
     @JoinColumn(name = "tecnico_id", nullable = false)
     private Tecnico tecnicoResponsavel;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "categoria_exame", nullable = false)
-    private CategoriaExame categoriaExame;
 
-    @Column(name = "descricao_exame", nullable = false)
+    @Lob
+    @Column(name = "descricao_exame", nullable = false, columnDefinition = "TEXT")
     private String descricao;
 
-    @Column(name = "resultado_exame")
+    @Lob
+    @Column(name = "resultado_exame", columnDefinition = "TEXT")
     private String resultado;
 
 }

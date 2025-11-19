@@ -1,6 +1,7 @@
 package com.forin.apividaplus.controllers;
 
-import com.forin.apividaplus.dtos.TecnicoDTO;
+import com.forin.apividaplus.dtos.TecnicoInputDTO;
+import com.forin.apividaplus.dtos.TecnicoResponseDTO;
 import com.forin.apividaplus.models.pessoas.Tecnico;
 import com.forin.apividaplus.services.TecnicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,12 @@ public class TecnicoController {
     private TecnicoService tecnicoService;
 
     @PostMapping
-    public Tecnico cadastrarTecnico(@RequestBody TecnicoDTO tecnico){
+    public Tecnico cadastrarTecnico(@RequestBody TecnicoInputDTO tecnico){
         return tecnicoService.cadastrarTecnico(tecnico);
     }
 
     @GetMapping("/{id}")
-    public Tecnico consultarTecnico(@PathVariable("id") String idTecnico){
+    public TecnicoResponseDTO consultarTecnico(@PathVariable("id") String idTecnico){
         return tecnicoService.consultarTecnico(idTecnico);
     }
 

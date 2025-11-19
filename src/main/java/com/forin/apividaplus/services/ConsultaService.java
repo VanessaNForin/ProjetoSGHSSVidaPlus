@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 
 import static com.forin.apividaplus.mappers.ConsultaMapper.toDTO;
 import static com.forin.apividaplus.services.Utils.criarId;
+import static com.forin.apividaplus.services.Utils.validarDataHoraAtendimento;
 
 
 @Service
@@ -41,7 +42,7 @@ public class ConsultaService {
 
         novaConsulta.setIdConsulta(criarId(Consulta.class, consultaRepository.count()));
         novaConsulta.setLocal(validarClinica(consulta.getIdClinica()));
-        novaConsulta.setDataHora(Utils.validarDataHoraAtendimento(consulta.getDataHora()));
+        novaConsulta.setDataHora(validarDataHoraAtendimento(consulta.getDataHora()));
         novaConsulta.setPaciente(validarPacienteConsulta(consulta.getIdPaciente(), novaConsulta.getDataHora()));
         novaConsulta.setTipoConsulta(consulta.getTipoConsulta());
         novaConsulta.setMedicoResponsavel(validarMedicoConsulta(consulta.getIdMedico(), novaConsulta.getDataHora()));
@@ -55,8 +56,6 @@ public class ConsultaService {
                 .orElseThrow(
                         ()-> new RuntimeException("Consulta não encontrada")
                 );
-
-
 
         return toDTO(consulta);
     }
