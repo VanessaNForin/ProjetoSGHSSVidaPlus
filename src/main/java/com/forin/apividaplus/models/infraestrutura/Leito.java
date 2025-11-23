@@ -17,6 +17,9 @@ public class Leito {
     @Column(name = "identificador_leito")
     private String idLeito;
 
+    @Column(name = "is_ativo")
+    private Boolean isAtivo;
+
     @ManyToOne
     @JoinColumn(name = "hospital_id", nullable = false)
     @JsonBackReference

@@ -36,18 +36,19 @@ public class InternacaoService {
     private EnfermeiroRepository enfermeiroRepository;
 
     @Transactional
-    public Internacao cadastrarInternacao(InternacaoInputDTO internacao){
+    public InternacaoResponseDTO cadastrarInternacao(InternacaoInputDTO internacao){
         Internacao novaInternacao = new Internacao();
 
         novaInternacao.setIdInternacao(criarId(Internacao.class, internacaoRepository.count()));
+        novaInternacao.setIsAtivo(true);
         novaInternacao.setPaciente(validarPaciente(internacao.getIdPaciente()));
         novaInternacao.setLeito(validarLeito(internacao.getIdLeito()));
         novaInternacao.setMedicoResponsavel(validarMedico(internacao.getIdMedico()));
         novaInternacao.setEnfermeiroResponsavel(validarEnfermeiro(internacao.getIdEnfermeiro()));
         novaInternacao.setDataEntrada(LocalDateTime.now());
-        novaInternacao.setIsAtivo(true);
 
-        return internacaoRepository.save(novaInternacao);
+        internacaoRepository.save(novaInternacao);
+        return toDTO(novaInternacao);
     }
 
     public InternacaoResponseDTO consultarInternacao(String idInternacao){
@@ -57,14 +58,12 @@ public class InternacaoService {
         return toDTO(internacao);
     }
 
-    public InternacaoResponseDTO darAlta(String idInternacao){
+    public void darAlta(String idInternacao){
         Internacao internacao = internacaoRepository.findById(idInternacao)
                 .orElseThrow(()-> new RuntimeException("Internação não encontrada"));
         internacao.setIsAtivo(false);
         internacao.setDataAlta(LocalDateTime.now());
         internacaoRepository.save(internacao);
-
-        return toDTO(internacao);
     }
 
     private Paciente validarPaciente(String idPaciente){
@@ -91,6 +90,12 @@ public class InternacaoService {
     private Leito validarLeito(String idLeito){
         Leito leito = leitoRepository.findById(idLeito)
                 .orElseThrow(() -> new RuntimeException("Leito não existe"));
+
+        boolean leitoAtivo = leito.getIsAtivo();
+
+        if(!leitoAtivo){
+            throw new RuntimeException("Leito não tem cadastro ativo");
+        }
 
         boolean leitoOcupado = leito.getInternacao()
                 .stream().anyMatch(Internacao::getIsAtivo);

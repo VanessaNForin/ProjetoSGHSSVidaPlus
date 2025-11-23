@@ -1,13 +1,13 @@
 package com.forin.apividaplus.controllers;
 
 import com.forin.apividaplus.dtos.ReceitaDigitalInputDTO;
+import com.forin.apividaplus.dtos.ReceitaDigitalResponseDTO;
 import com.forin.apividaplus.models.atendimento.ReceitaDigital;
 import com.forin.apividaplus.services.ReceitaDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/receitas-digitais")
@@ -17,7 +17,16 @@ public class ReceitaDigitalController {
     private ReceitaDigitalService receitaDigitalService;
 
     @PostMapping
-    public ReceitaDigital emitirReceitaDigital(@RequestBody ReceitaDigitalInputDTO receita){
-        return receitaDigitalService.emitirReceitaDigital(receita);
+    public ResponseEntity<ReceitaDigitalResponseDTO> emitirReceitaDigital(@RequestBody ReceitaDigitalInputDTO receita){
+        ReceitaDigitalResponseDTO novaReceita = receitaDigitalService.emitirReceitaDigital(receita);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaReceita);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReceitaDigitalResponseDTO> consultarReceitaDigital(String idReceita){
+        ReceitaDigitalResponseDTO receita = receitaDigitalService.consultarReceita(idReceita);
+
+        return ResponseEntity.status(HttpStatus.OK).body(receita);
     }
 }

@@ -26,7 +26,7 @@ public class ReceitaDigitalService {
     private ConsultaRepository consultaRepository;
 
     @Transactional
-    public ReceitaDigital emitirReceitaDigital(ReceitaDigitalInputDTO receita){
+    public ReceitaDigitalResponseDTO emitirReceitaDigital(ReceitaDigitalInputDTO receita){
         ReceitaDigital novaReceita = new ReceitaDigital();
 
         novaReceita.setIdReceita(criarId(ReceitaDigital.class, receitaDigitalRepository.count()));
@@ -41,7 +41,8 @@ public class ReceitaDigitalService {
         }
         novaReceita.setDescricao(receita.getDescricao());
 
-        return receitaDigitalRepository.save(novaReceita);
+        receitaDigitalRepository.save(novaReceita);
+        return toDTO(novaReceita);
     }
 
     public ReceitaDigitalResponseDTO consultarReceita(String idReceita){
@@ -66,6 +67,4 @@ public class ReceitaDigitalService {
 
         return dataVencimentoFormatada;
     }
-
-
 }

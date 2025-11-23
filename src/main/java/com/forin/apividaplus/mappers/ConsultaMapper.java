@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.ConsultaResponseDTO;
 import com.forin.apividaplus.models.atendimento.Consulta;
 import com.forin.apividaplus.services.Utils;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import static com.forin.apividaplus.services.Utils.formatarDataHoraString;
@@ -14,6 +15,15 @@ public class ConsultaMapper {
         ConsultaResponseDTO novaConsultaResponseDTO = new ConsultaResponseDTO();
 
         novaConsultaResponseDTO.setIdConsulta(consulta.getIdConsulta());
+        if (!consulta.getIsAtiva()) {
+            novaConsultaResponseDTO.setIsAtiva("Consulta Cancelada");
+        }
+        else if (consulta.getDataHora().isAfter(LocalDateTime.now())) {
+            novaConsultaResponseDTO.setIsAtiva("Consulta Agendada");
+        }
+        else {
+            novaConsultaResponseDTO.setIsAtiva("Consulta Realizada");
+        }
         novaConsultaResponseDTO.setLocal(consulta.getLocal().getNome());
         novaConsultaResponseDTO.setDataHora(formatarDataHoraString(consulta.getDataHora()));
         novaConsultaResponseDTO.setPaciente(consulta.getPaciente().getNomeCompleto());

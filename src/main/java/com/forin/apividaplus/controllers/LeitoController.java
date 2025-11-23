@@ -5,6 +5,8 @@ import com.forin.apividaplus.dtos.LeitoResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 import com.forin.apividaplus.services.LeitoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +17,23 @@ public class LeitoController {
     private LeitoService leitoService;
 
     @PostMapping
-    public Leito cadastrarLeito(@RequestBody LeitoInputDTO leito){
-        return leitoService.cadastrarLeito(leito);
+    public ResponseEntity<LeitoResponseDTO> cadastrarLeito(@RequestBody LeitoInputDTO leito){
+        LeitoResponseDTO novoLeito = leitoService.cadastrarLeito(leito);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoLeito);
     }
 
     @GetMapping("/{id}")
-    public LeitoResponseDTO consultarLeito(@PathVariable("id") String idLeito){
-        return leitoService.consultarLeito(idLeito);
+    public ResponseEntity<LeitoResponseDTO> consultarLeito(@PathVariable("id") String idLeito){
+        LeitoResponseDTO leito = leitoService.consultarLeito(idLeito);
+
+        return ResponseEntity.status(HttpStatus.OK).body(leito);
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deletarLeito(@PathVariable("id") String idLeito){
-//        leitoService.deletarLeito(idLeito);
-//    }
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity<Void> desativarLeito(String idLeito){
+        leitoService.desativarLeito(idLeito);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

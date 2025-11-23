@@ -5,6 +5,8 @@ import com.forin.apividaplus.dtos.TecnicoResponseDTO;
 import com.forin.apividaplus.models.pessoas.Tecnico;
 import com.forin.apividaplus.services.TecnicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +17,33 @@ public class TecnicoController {
     private TecnicoService tecnicoService;
 
     @PostMapping
-    public Tecnico cadastrarTecnico(@RequestBody TecnicoInputDTO tecnico){
-        return tecnicoService.cadastrarTecnico(tecnico);
+    public ResponseEntity<TecnicoResponseDTO> cadastrarTecnico(@RequestBody TecnicoInputDTO tecnico){
+        TecnicoResponseDTO novoTecnico = tecnicoService.cadastrarTecnico(tecnico);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoTecnico);
     }
 
     @GetMapping("/{id}")
-    public TecnicoResponseDTO consultarTecnico(@PathVariable("id") String idTecnico){
-        return tecnicoService.consultarTecnico(idTecnico);
+    public ResponseEntity<TecnicoResponseDTO> consultarTecnico(@PathVariable("id") String idTecnico){
+        TecnicoResponseDTO tecnico = tecnicoService.consultarTecnico(idTecnico);
+
+        return ResponseEntity.status(HttpStatus.OK).body(tecnico);
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deletarTecnico(@PathVariable("id") String idTecnico){
-//        tecnicoService.deletarTecnico(idTecnico);
-//    }
+    @PatchMapping("/{idTecnico}/exames/{idExame}/resultado")
+    public ResponseEntity<Void> atualizarResultado(
+            @PathVariable("idTecnico") String idTecnico,
+            @PathVariable("idExame") String idExame,
+            @RequestBody String novoResultado){
+        tecnicoService.atualizarResultado(idTecnico,idExame,novoResultado);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity<Void> desativarTecnico(@PathVariable("id") String idTecnico){
+        tecnicoService.desativarTecnico(idTecnico);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

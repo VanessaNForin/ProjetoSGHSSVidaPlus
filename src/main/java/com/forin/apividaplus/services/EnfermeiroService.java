@@ -5,6 +5,7 @@ import com.forin.apividaplus.dtos.EnfermeiroResponseDTO;
 import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.mappers.InternacaoMapper;
 import com.forin.apividaplus.models.atendimento.Internacao;
+import com.forin.apividaplus.models.infraestrutura.Hospital;
 import com.forin.apividaplus.models.pessoas.Enfermeiro;
 import com.forin.apividaplus.repositories.EnfermeiroRepository;
 import com.forin.apividaplus.repositories.HospitalRepository;
@@ -40,10 +41,7 @@ public class EnfermeiroService {
         novoEnfermeiro.setIdEnfermeiro(criarId(Enfermeiro.class, enfermeiroRepository.count()));
         novoEnfermeiro.setCadastroAtivo(true);
         novoEnfermeiro.setDataNascimento(validarDataNascimento(enfermeiro.getDataNascimento()));
-        novoEnfermeiro.setHospitalTrabalho(
-                hospitalRepository.findById(enfermeiro.getIdHospitalTrabalho())
-                        .orElseThrow(() -> new RuntimeException("Hospital não encontrado"))
-        );
+        novoEnfermeiro.setHospitalTrabalho(validarHospital(enfermeiro.getIdHospitalTrabalho()));
 
         return enfermeiroRepository.save(novoEnfermeiro);
     }
@@ -56,10 +54,6 @@ public class EnfermeiroService {
         return toDTO(enfermeiro);
     }
 
-//    public void deletarEnfermeiro(String idEnfermeiro){
-//        enfermeiroRepository.deleteById(idEnfermeiro);
-//    }
-
     public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(String idEnfermeiro){
         Enfermeiro enfermeiro = enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
                 ()-> new RuntimeException("Enfermeiro não encontrado")
@@ -71,7 +65,7 @@ public class EnfermeiroService {
                 .collect(Collectors.toList());
     }
 
-    public void atualizarProntuario(String idEnfermeiro, String idInternacao, String novoProntuario){
+    public InternacaoResponseDTO atualizarProntuario(String idEnfermeiro, String idInternacao, String novoProntuario){
         Enfermeiro enfermeiro = enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
                 ()-> new RuntimeException("Enfermeiro não encontrado")
         );
@@ -97,6 +91,36 @@ public class EnfermeiroService {
         }
 
         internacaoRepository.save(internacao);
+
+        return InternacaoMapper.toDTO(internacao);
+    }
+
+    public void desativarEnfermeiro(String idEnfermeiro){
+        Enfermeiro enfermeiro = enfermeiroRepository.findById(idEnfermeiro).orElseThrow(
+                ()-> new RuntimeException("Enfermeiro não encontrado")
+        );
+
+        boolean enfermeiroAtivo = enfermeiro.getCadastroAtivo();
+
+        if(!enfermeiroAtivo){
+            throw new RuntimeException("Enfermeiro já está com o cadastro desativado");
+        }
+
+        enfermeiro.setCadastroAtivo(false);
+        enfermeiroRepository.save(enfermeiro);
+    }
+
+    private Hospital validarHospital(String idHospital){
+        Hospital hospital = hospitalRepository.findById(idHospital)
+                .orElseThrow(() -> new RuntimeException("Hospital não encontrado"));
+
+        boolean hospitalAtivo = hospital.getIsAtivo();
+
+        if(!hospitalAtivo){
+            throw new RuntimeException("Hospital não tem cadastro ativo");
+        }
+
+        return hospital;
     }
 
 }

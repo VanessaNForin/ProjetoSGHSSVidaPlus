@@ -9,6 +9,7 @@ import java.util.List;
 public class ConsultaResponseDTO {
 
     private String idConsulta;
+    private String isAtiva;
     private String local;
     private String dataHora;
     private String paciente;

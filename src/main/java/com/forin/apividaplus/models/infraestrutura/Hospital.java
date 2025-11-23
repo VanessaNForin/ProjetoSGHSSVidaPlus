@@ -16,6 +16,9 @@ public class Hospital {
     @Column(name = "identificador_hospital")
     private String idHospital;
 
+    @Column(name = "is_ativo")
+    private Boolean isAtivo;
+
     @Column(name = "nome_hospital", nullable = false)
     private String nome;
 

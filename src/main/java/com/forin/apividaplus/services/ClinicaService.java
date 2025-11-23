@@ -28,6 +28,7 @@ public class ClinicaService {
         Clinica novaClinica = toModel(clinica);
 
         novaClinica.setIdClinica(Utils.criarId(Clinica.class, clinicaRepository.count()));
+        novaClinica.setIsAtivo(true);
 
         return clinicaRepository.save(novaClinica);
     }
@@ -49,5 +50,19 @@ public class ClinicaService {
                 .stream()
                 .map(ConsultaMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void desativarClinica(String idClinica){
+        Clinica clinica = clinicaRepository.findById(idClinica).orElseThrow(
+                ()-> new RuntimeException("Clinica não encontrada")
+        );
+        boolean clinicaAtiva = clinica.getIsAtivo();
+
+        if(!clinicaAtiva){
+            throw new RuntimeException("Clinica já está com o cadastro desativado");
+        }
+
+        clinica.setIsAtivo(false);
+        clinicaRepository.save(clinica);
     }
 }

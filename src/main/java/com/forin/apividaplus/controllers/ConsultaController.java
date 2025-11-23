@@ -2,9 +2,10 @@ package com.forin.apividaplus.controllers;
 
 import com.forin.apividaplus.dtos.ConsultaInputDTO;
 import com.forin.apividaplus.dtos.ConsultaResponseDTO;
-import com.forin.apividaplus.models.atendimento.Consulta;
 import com.forin.apividaplus.services.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +16,24 @@ public class ConsultaController {
     private ConsultaService consultaService;
 
     @PostMapping
-    public ConsultaResponseDTO marcarConsulta(@RequestBody ConsultaInputDTO consulta){
-        return consultaService.marcarConsulta(consulta);
+    public ResponseEntity<ConsultaResponseDTO> marcarConsulta(@RequestBody ConsultaInputDTO consulta){
+        ConsultaResponseDTO consultaMarcada = consultaService.marcarConsulta(consulta);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(consultaMarcada);
     }
 
     @GetMapping("/{id}")
-    public ConsultaResponseDTO consultarConsulta(@PathVariable("id") String idConsulta){
-        return consultaService.consultarConsulta(idConsulta);
+    public ResponseEntity<ConsultaResponseDTO> consultarConsulta(@PathVariable("id") String idConsulta){
+        ConsultaResponseDTO consultaConsultada = consultaService.consultarConsulta(idConsulta);
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaConsultada);
     }
 
-    @DeleteMapping("/{id}")
-    public void desmarcarConsulta(@PathVariable("id") String idConsulta){
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> desmarcarConsulta(@PathVariable("id") String idConsulta){
         consultaService.desmarcarConsulta(idConsulta);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }

@@ -30,14 +30,15 @@ public class MedicoService {
     private InternacaoRepository internacaoRepository;
 
     @Transactional
-    public Medico cadastrarMedico(MedicoInputDTO medico){
+    public MedicoResponseDTO cadastrarMedico(MedicoInputDTO medico){
         Medico novoMedico = toModel(medico);
 
         novoMedico.setIdMedico(criarId(Medico.class, medicoRepository.count()));
         novoMedico.setCadastroAtivo(true);
         novoMedico.setDataNascimento(validarDataNascimento(medico.getDataNascimento()));
 
-        return medicoRepository.save(novoMedico);
+        medicoRepository.save(novoMedico);
+        return toDTO(novoMedico);
     }
 
     public MedicoResponseDTO consultarMedico(String idMedico){
@@ -47,10 +48,6 @@ public class MedicoService {
 
         return toDTO(medico);
     }
-
-//    public void deletarMedico(String idMedico){
-//        medicoRepository.deleteById(idMedico);
-//    }
 
     public List<InternacaoResponseDTO> consultarInternacoesResponsaveis(String idMedico){
         Medico medico = medicoRepository.findById(idMedico).orElseThrow(
@@ -109,6 +106,21 @@ public class MedicoService {
                 .stream()
                 .map(ReceitaDigitalMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void desativarMedico(String idMedico){
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(
+                ()-> new RuntimeException("Médico não encontrado")
+        );
+
+        boolean medicoAtivo = medico.getCadastroAtivo();
+
+        if(!medicoAtivo){
+            throw new RuntimeException("Médico já está com o cadastro desativado");
+        }
+
+        medico.setCadastroAtivo(false);
+        medicoRepository.save(medico);
     }
 
 }

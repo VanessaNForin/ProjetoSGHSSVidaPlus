@@ -16,6 +16,9 @@ public class Clinica {
     @Column(name = "identificador_clinica")
     private String idClinica;
 
+    @Column(name = "is_ativo")
+    private Boolean isAtivo;
+
     @Column(name = "nome_clinica", nullable = false)
     private String nome;
 

@@ -6,6 +6,7 @@ import lombok.Data;
 public class LaboratorioResponseDTO {
 
     private String idLaboratorio;
+    private Boolean isAtivo;
     private String nome;
     private String endereco;
     private String telefone;

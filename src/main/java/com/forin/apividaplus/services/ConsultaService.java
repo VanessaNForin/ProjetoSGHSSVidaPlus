@@ -41,6 +41,7 @@ public class ConsultaService {
         Consulta novaConsulta = new Consulta();
 
         novaConsulta.setIdConsulta(criarId(Consulta.class, consultaRepository.count()));
+        novaConsulta.setIsAtiva(true);
         novaConsulta.setLocal(validarClinica(consulta.getIdClinica()));
         novaConsulta.setDataHora(validarDataHoraAtendimento(consulta.getDataHora()));
         novaConsulta.setPaciente(validarPacienteConsulta(consulta.getIdPaciente(), novaConsulta.getDataHora()));
@@ -60,12 +61,13 @@ public class ConsultaService {
         return toDTO(consulta);
     }
 
-
     public void desmarcarConsulta(String idConsulta){
         Consulta consulta = consultaRepository.findById(idConsulta)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+                .orElseThrow(()-> new RuntimeException("Consulta não encontrada"));
 
-        consultaRepository.delete(consulta);
+        consulta.setIsAtiva(false);
+
+        consultaRepository.save(consulta);
     }
 
     private Paciente validarPacienteConsulta(String idPaciente, LocalDateTime horaData){
@@ -112,12 +114,15 @@ public class ConsultaService {
     }
 
     private Clinica validarClinica(String idClinica){
+        Clinica clinica = clinicaRepository.findById(idClinica)
+                .orElseThrow(()-> new RuntimeException("Clínica não encontrada"));
 
-        return clinicaRepository.findById(idClinica)
-                .orElseThrow(
-                        ()-> new RuntimeException("Clinica não existe")
-                );
+        boolean clinicaAtiva = clinica.getIsAtivo();
+
+        if(!clinicaAtiva){
+            throw new RuntimeException("Clínica não tem cadastro ativo");
+        }
+
+        return clinica;
     }
-
-
 }

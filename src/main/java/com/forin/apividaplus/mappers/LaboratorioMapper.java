@@ -21,6 +21,7 @@ public class LaboratorioMapper {
         LaboratorioResponseDTO novoLabResponseDTO = new LaboratorioResponseDTO();
 
         novoLabResponseDTO.setIdLaboratorio(laboratorio.getIdLaboratorio());
+        novoLabResponseDTO.setIsAtivo(laboratorio.getIsAtivo());
         novoLabResponseDTO.setNome(laboratorio.getNome());
         novoLabResponseDTO.setEndereco(laboratorio.getEndereco());
         novoLabResponseDTO.setTelefone(laboratorio.getTelefone());

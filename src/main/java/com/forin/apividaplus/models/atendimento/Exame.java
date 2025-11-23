@@ -18,6 +18,9 @@ public class Exame {
     @Column(name = "identificador_exame")
     private String idExame;
 
+    @Column(name = "is_ativo")
+    private Boolean isAtivo;
+
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
@@ -36,7 +39,6 @@ public class Exame {
     @ManyToOne
     @JoinColumn(name = "tecnico_id", nullable = false)
     private Tecnico tecnicoResponsavel;
-
 
     @Lob
     @Column(name = "descricao_exame", nullable = false, columnDefinition = "TEXT")

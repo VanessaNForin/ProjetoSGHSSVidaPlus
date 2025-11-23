@@ -16,6 +16,9 @@ public class Laboratorio {
     @Column(name = "identificador_laboratório")
     private String idLaboratorio;
 
+    @Column(name = "is_ativo")
+    private Boolean isAtivo;
+
     @Column(name = "nome_laboratorio", nullable = false)
     private String nome;
 

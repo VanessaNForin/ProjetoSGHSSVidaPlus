@@ -24,18 +24,15 @@ public class LeitoService {
     private HospitalRepository hospitalRepository;
 
     @Transactional
-    public Leito cadastrarLeito(LeitoInputDTO leito){
+    public LeitoResponseDTO cadastrarLeito(LeitoInputDTO leito){
         Leito novoLeito = toModel(leito);
 
         novoLeito.setIdLeito(criarId(Leito.class, leitoRepository.count()));
+        novoLeito.setIsAtivo(true);
         novoLeito.setHospital(validarHospital(leito.getIdHospital()));
 
-        return leitoRepository.save(novoLeito);
-    }
-
-    private Hospital validarHospital(String idHospital){
-        return hospitalRepository.findById(idHospital).orElseThrow(
-                ()-> new RuntimeException("Hospital não encontrado"));
+        leitoRepository.save(novoLeito);
+        return toDTO(novoLeito);
     }
 
     public LeitoResponseDTO consultarLeito(String idLeito){
@@ -46,16 +43,33 @@ public class LeitoService {
         return toDTO(leito);
     }
 
-//    public void deletarLeito(String idLeito){
-//        Leito leito = leitoRepository.findById(idLeito).orElseThrow(
-//                ()-> new RuntimeException("Leito não encontrado")
-//        );
-//
-//        if(!leito.getInternacao().isEmpty()){
-//            throw new RuntimeException("Não é possível excluir! O leito possui internações cadastradas");
-//        }
-//
-//        leitoRepository.delete(leito);
-//    }
+    public void desativarLeito(String idLeito){
+        Leito leito = leitoRepository.findById(idLeito).orElseThrow(
+                () -> new RuntimeException("Leito não encontrado")
+        );
+
+        boolean leitoAtivo = leito.getIsAtivo();
+
+        if(!leitoAtivo){
+            throw new RuntimeException("Leito já esta´com o cadastro desativado");
+        }
+
+        leito.setIsAtivo(false);
+        leitoRepository.save(leito);
+    }
+
+    private Hospital validarHospital(String idHospital){
+        Hospital hospital = hospitalRepository.findById(idHospital).orElseThrow(
+                ()-> new RuntimeException("Hospital não encontrado"));
+
+        boolean hospitalAtivo = hospital.getIsAtivo();
+
+        if(!hospitalAtivo){
+            throw new RuntimeException("Hospital não tem cadastro ativo");
+        }
+
+        return hospital;
+    }
+
 
 }

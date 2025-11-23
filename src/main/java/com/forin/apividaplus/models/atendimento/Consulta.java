@@ -19,6 +19,9 @@ public class Consulta {
     @Column(name = "identificador_consulta")
     private String idConsulta;
 
+    @Column(name = "is_ativa")
+    private Boolean isAtiva;
+
     @ManyToOne
     @JoinColumn(name = "clinica_id", nullable = false)
     private Clinica local;

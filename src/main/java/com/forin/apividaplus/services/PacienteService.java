@@ -24,14 +24,15 @@ public class PacienteService {
     private PacienteRepository pacienteRepository;
 
     @Transactional
-    public Paciente cadastrarPaciente(PacienteInputDTO paciente){
+    public PacienteResponseDTO cadastrarPaciente(PacienteInputDTO paciente){
         Paciente novoPaciente = toModel(paciente);
 
         novoPaciente.setIdPaciente(criarId(Paciente.class, pacienteRepository.count()));
         novoPaciente.setCadastroAtivo(true);
         novoPaciente.setDataNascimento(validarDataNascimento(paciente.getDataNascimento()));
 
-        return pacienteRepository.save(novoPaciente);
+        pacienteRepository.save(novoPaciente);
+        return toDTO(novoPaciente);
     }
 
     public PacienteResponseDTO consultarPaciente(String idPaciente){
@@ -40,10 +41,6 @@ public class PacienteService {
 
         return toDTO(paciente);
     }
-
-//    public void deletarPaciente(String idPaciente){
-//        pacienteRepository.deleteById(idPaciente);
-//    }
 
     public List<InternacaoResponseDTO> consultarInternacoes(String idPaciente){
         Paciente paciente = pacienteRepository.findById(idPaciente)
@@ -76,7 +73,7 @@ public class PacienteService {
     }
 
 
-    public void desativarCadastroPaciente(String idPaciente){
+    public void desativarPaciente(String idPaciente){
         Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
                 ()-> new RuntimeException("Paciente não encontrado")
         );

@@ -1,12 +1,12 @@
 package com.forin.apividaplus.controllers;
 
-import com.forin.apividaplus.dtos.ConsultaResponseDTO;
-import com.forin.apividaplus.dtos.InternacaoResponseDTO;
-import com.forin.apividaplus.dtos.PacienteInputDTO;
-import com.forin.apividaplus.dtos.PacienteResponseDTO;
+import com.forin.apividaplus.dtos.*;
 import com.forin.apividaplus.models.pessoas.Paciente;
 import com.forin.apividaplus.services.PacienteService;
+import com.forin.apividaplus.services.ReceitaDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,34 +19,44 @@ public class PacienteController {
     private PacienteService pacienteService;
 
     @PostMapping
-    public Paciente cadastrarPaciente(@RequestBody PacienteInputDTO paciente){
-        return pacienteService.cadastrarPaciente(paciente);
+    public ResponseEntity<PacienteResponseDTO> cadastrarPaciente(@RequestBody PacienteInputDTO paciente){
+        PacienteResponseDTO novoPaciente = pacienteService.cadastrarPaciente(paciente);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoPaciente);
     }
 
     @GetMapping("/{id}")
-    public PacienteResponseDTO consultarPaciente(@PathVariable("id") String idPaciente){
-        return pacienteService.consultarPaciente(idPaciente);
+    public ResponseEntity<PacienteResponseDTO> consultarPaciente(@PathVariable("id") String idPaciente){
+        PacienteResponseDTO paciente = pacienteService.consultarPaciente(idPaciente);
+
+        return ResponseEntity.status(HttpStatus.OK).body(paciente);
     }
 
     @GetMapping("/{id}/internacoes")
-    public List<InternacaoResponseDTO> consultarInternacoes(@PathVariable("id") String idPaciente){
-        return pacienteService.consultarInternacoes(idPaciente);
+    public ResponseEntity<List<InternacaoResponseDTO>> consultarInternacoes(@PathVariable("id") String idPaciente){
+        List<InternacaoResponseDTO> listaInternacoes = pacienteService.consultarInternacoes(idPaciente);
+
+        return ResponseEntity.status(HttpStatus.OK).body(listaInternacoes);
     }
 
     @GetMapping("/{id}/consultas")
-    public List<ConsultaResponseDTO> consultarConsultas(@PathVariable("id") String idPaciente){
-        return pacienteService.consultarConsultas(idPaciente);
+    public ResponseEntity<List<ConsultaResponseDTO>> consultarConsultas(@PathVariable("id") String idPaciente){
+        List<ConsultaResponseDTO> listaConsultas = pacienteService.consultarConsultas(idPaciente);
+
+        return ResponseEntity.status(HttpStatus.OK).body(listaConsultas);
     }
 
-    @PatchMapping("/{id}/ativo")
-    public void desativarCadastroPaciente(@PathVariable("id") String idPaciente){
-        pacienteService.desativarCadastroPaciente(idPaciente);
+    @GetMapping("/{id}/receitas")
+    public ResponseEntity<List<ReceitaDigitalResponseDTO>> consultarReceitas(@PathVariable("id") String idPaciente){
+        List<ReceitaDigitalResponseDTO> listaReceitas = pacienteService.consultarReceitas(idPaciente);
+
+        return ResponseEntity.status(HttpStatus.OK).body(listaReceitas);
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deletarPaciente(@PathVariable("id") String idPaciente){
-//        pacienteService.deletarPaciente(idPaciente);
-//    }
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity<Void> desativarCadastroPaciente(@PathVariable("id") String idPaciente){
+        pacienteService.desativarPaciente(idPaciente);
 
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

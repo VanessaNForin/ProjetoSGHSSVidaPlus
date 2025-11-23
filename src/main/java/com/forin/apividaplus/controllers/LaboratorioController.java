@@ -5,6 +5,8 @@ import com.forin.apividaplus.dtos.LaboratorioResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Laboratorio;
 import com.forin.apividaplus.services.LaboratorioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,12 +17,23 @@ public class LaboratorioController {
     private LaboratorioService laboratorioService;
 
     @PostMapping
-    public Laboratorio cadastrarLaboratorio(@RequestBody LaboratorioInputDTO laboratorio){
-        return laboratorioService.cadastrarLaboratorio(laboratorio);
+    public ResponseEntity<LaboratorioResponseDTO> cadastrarLaboratorio(@RequestBody LaboratorioInputDTO laboratorio){
+        LaboratorioResponseDTO novoLaboratorio = laboratorioService.cadastrarLaboratorio(laboratorio);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoLaboratorio);
     }
 
     @GetMapping("/{id}")
-    public LaboratorioResponseDTO consultarLaboratorio(String idLaboratorio){
-        return laboratorioService.consultarLaboratorio(idLaboratorio);
+    public ResponseEntity<LaboratorioResponseDTO> consultarLaboratorio(String idLaboratorio){
+        LaboratorioResponseDTO laboratorio = laboratorioService.consultarLaboratorio(idLaboratorio);
+
+        return ResponseEntity.status(HttpStatus.OK).body(laboratorio);
+    }
+
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity<Void> desativarLaboratorio(String idLaboratorio){
+        laboratorioService.desativarLaboratorio(idLaboratorio);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

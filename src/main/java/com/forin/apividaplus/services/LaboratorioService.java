@@ -2,7 +2,6 @@ package com.forin.apividaplus.services;
 
 import com.forin.apividaplus.dtos.LaboratorioInputDTO;
 import com.forin.apividaplus.dtos.LaboratorioResponseDTO;
-import com.forin.apividaplus.mappers.LaboratorioMapper;
 import com.forin.apividaplus.models.infraestrutura.Laboratorio;
 import com.forin.apividaplus.repositories.LaboratorioRepository;
 import jakarta.transaction.Transactional;
@@ -20,12 +19,14 @@ public class LaboratorioService {
     private LaboratorioRepository laboratorioRepository;
 
     @Transactional
-    public Laboratorio cadastrarLaboratorio(LaboratorioInputDTO laboratorio){
+    public LaboratorioResponseDTO cadastrarLaboratorio(LaboratorioInputDTO laboratorio){
         Laboratorio novoLaboratorio = toModel(laboratorio);
 
         novoLaboratorio.setIdLaboratorio(criarId(Laboratorio.class, laboratorioRepository.count()));
+        novoLaboratorio.setIsAtivo(true);
 
-        return laboratorioRepository.save(novoLaboratorio);
+        laboratorioRepository.save(novoLaboratorio);
+        return toDTO(novoLaboratorio);
     }
 
     public LaboratorioResponseDTO consultarLaboratorio(String idLaboratorio){
@@ -33,6 +34,20 @@ public class LaboratorioService {
                 .orElseThrow(()-> new RuntimeException("Laboratório não encontrado"));
 
         return toDTO(laboratorio);
+    }
+
+    public void desativarLaboratorio(String idLaboratorio){
+        Laboratorio laboratorio = laboratorioRepository.findById(idLaboratorio)
+                .orElseThrow(()-> new RuntimeException("Laboratório não encontrado"));
+
+        boolean laboratorioAtivo = laboratorio.getIsAtivo();
+
+        if(!laboratorioAtivo){
+            throw new RuntimeException("Laboratorio já está com o cadastro desativado");
+        }
+
+        laboratorio.setIsAtivo(false);
+        laboratorioRepository.save(laboratorio);
     }
 
 

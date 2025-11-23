@@ -20,6 +20,7 @@ public class ClinicaMapper {
         ClinicaResponseDTO novaClinicaResponseDTO = new ClinicaResponseDTO();
 
         novaClinicaResponseDTO.setIdClinica(clinica.getIdClinica());
+        novaClinicaResponseDTO.setIsAtivo(clinica.getIsAtivo());
         novaClinicaResponseDTO.setNome(clinica.getNome());
         novaClinicaResponseDTO.setEndereco(clinica.getEndereco());
         novaClinicaResponseDTO.setTelefone(clinica.getTelefone());
