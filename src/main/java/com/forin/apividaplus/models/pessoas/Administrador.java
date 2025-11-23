@@ -45,5 +45,4 @@ public class Administrador extends Pessoa{
             inverseJoinColumns = @JoinColumn(name = "laboratorio_id")
     )
     private List<Laboratorio> laboratorios;
-
 }

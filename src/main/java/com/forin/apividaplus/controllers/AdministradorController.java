@@ -1,11 +1,15 @@
 package com.forin.apividaplus.controllers;
 
-import com.forin.apividaplus.dtos.AdministradorDTO;
+import com.forin.apividaplus.dtos.AdministradorInputDTO;
+import com.forin.apividaplus.dtos.AdministradorResponseDTO;
 import com.forin.apividaplus.models.pessoas.Administrador;
-import com.forin.apividaplus.models.pessoas.Enfermeiro;
 import com.forin.apividaplus.services.AdministradorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.forin.apividaplus.mappers.AdministradorMapper.toDTO;
 
 @RestController
 @RequestMapping("/administradores")
@@ -15,17 +19,26 @@ public class AdministradorController {
     private AdministradorService administradorService;
 
     @PostMapping
-    public Administrador cadastrarAdministrador(@RequestBody AdministradorDTO administrador){
-        return administradorService.cadastrarAdministrador(administrador);
+    public ResponseEntity<AdministradorResponseDTO> cadastrarAdministrador(@RequestBody AdministradorInputDTO administrador){
+        Administrador novoAdministrador = administradorService.cadastrarAdministrador(administrador);
+
+        AdministradorResponseDTO administradorDTO = toDTO(novoAdministrador);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(administradorDTO);
     }
 
     @GetMapping("/{id}")
-    public Administrador consultarAdministrador(@PathVariable("id") String idAdministrador){
-        return administradorService.consultarAdministrador(idAdministrador);
+    public ResponseEntity<AdministradorResponseDTO> consultarAdministrador(@PathVariable("id") String idAdministrador){
+        AdministradorResponseDTO administrador = administradorService.consultarAdministrador(idAdministrador);
+
+        return ResponseEntity.status(HttpStatus.OK).body(administrador);
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deletarEnfermeiro(@PathVariable("id") String idAdministrador){
-//        administradorService.deletarAdministrador(idAdministrador);
-//    }
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity<Void> desativarAdministrador(@PathVariable("id") String idAdministrador){
+        administradorService.desativarAdministrador(idAdministrador);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
