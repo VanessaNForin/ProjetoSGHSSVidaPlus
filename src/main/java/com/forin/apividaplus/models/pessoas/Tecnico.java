@@ -13,7 +13,7 @@ import java.util.List;
 public class Tecnico extends Pessoa{
 
     @Id
-    @Column(name = "identificador_tecnico")
+    @Column(name = "identificador_tecnico",unique = true)
     private String idTecnico;
 
     @Enumerated(EnumType.STRING)

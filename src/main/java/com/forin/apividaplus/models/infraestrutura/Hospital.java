@@ -13,7 +13,7 @@ import java.util.List;
 public class Hospital {
 
     @Id
-    @Column(name = "identificador_hospital")
+    @Column(name = "identificador_hospital", unique = true)
     private String idHospital;
 
     @Column(name = "is_ativo")

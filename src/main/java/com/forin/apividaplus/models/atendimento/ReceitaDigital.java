@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class ReceitaDigital {
 
     @Id
-    @Column(name = "identificador_receita")
+    @Column(name = "identificador_receita",unique = true)
     private String idReceita;
 
     @ManyToOne

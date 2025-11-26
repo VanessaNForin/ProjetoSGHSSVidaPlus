@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Internacao {
 
     @Id
-    @Column(name = "identificador_internacao")
+    @Column(name = "identificador_internacao",unique = true)
     private String idInternacao;
 
     @ManyToOne

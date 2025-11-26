@@ -16,7 +16,7 @@ import java.util.List;
 public class Medico extends Pessoa{
 
     @Id
-    @Column(name = "identificador_medico")
+    @Column(name = "identificador_medico", unique = true)
     private String idMedico;
 
     @Enumerated(EnumType.STRING)

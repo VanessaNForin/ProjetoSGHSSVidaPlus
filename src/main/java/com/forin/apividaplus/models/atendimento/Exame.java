@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Exame {
 
     @Id
-    @Column(name = "identificador_exame")
+    @Column(name = "identificador_exame",unique = true)
     private String idExame;
 
     @Column(name = "is_ativo")

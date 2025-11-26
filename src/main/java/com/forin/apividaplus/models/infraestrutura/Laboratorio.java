@@ -13,7 +13,7 @@ import java.util.List;
 public class Laboratorio {
 
     @Id
-    @Column(name = "identificador_laboratório")
+    @Column(name = "identificador_laboratorio", unique = true)
     private String idLaboratorio;
 
     @Column(name = "is_ativo")

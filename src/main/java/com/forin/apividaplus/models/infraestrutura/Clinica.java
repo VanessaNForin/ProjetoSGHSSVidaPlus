@@ -13,7 +13,7 @@ import java.util.List;
 public class Clinica {
 
     @Id
-    @Column(name = "identificador_clinica")
+    @Column(name = "identificador_clinica", unique = true)
     private String idClinica;
 
     @Column(name = "is_ativo")

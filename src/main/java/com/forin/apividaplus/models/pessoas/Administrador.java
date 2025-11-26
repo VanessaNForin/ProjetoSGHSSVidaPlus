@@ -15,7 +15,7 @@ import java.util.List;
 public class Administrador extends Pessoa{
 
     @Id
-    @Column(name = "identificador_administrador")
+    @Column(name = "identificador_administrador", unique = true)
     private String idAdministrador;
 
     @Enumerated(EnumType.STRING)

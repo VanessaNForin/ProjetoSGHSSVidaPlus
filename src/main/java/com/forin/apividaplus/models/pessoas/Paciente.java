@@ -17,7 +17,7 @@ import java.util.List;
 public class Paciente extends Pessoa{
 
     @Id
-    @Column(name = "identificador_paciente")
+    @Column(name = "identificador_paciente", unique = true)
     private String idPaciente;
 
     @Column(name = "profissao", length = 20)

@@ -16,7 +16,7 @@ import java.util.List;
 public class Consulta {
 
     @Id
-    @Column(name = "identificador_consulta")
+    @Column(name = "identificador_consulta", unique = true)
     private String idConsulta;
 
     @Column(name = "is_ativa")

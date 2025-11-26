@@ -14,11 +14,11 @@ import java.util.List;
 public class Enfermeiro extends Pessoa{
 
     @Id
-    @Column(name = "identificador_enfermeiro")
+    @Column(name = "identificador_enfermeiro", unique = true)
     private String idEnfermeiro;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id", nullable = false)
+    @JoinColumn(name = "hospital_id")
     private Hospital hospitalTrabalho;
 
     @Column(name = "e_supervisora")

@@ -14,7 +14,7 @@ import java.util.List;
 public class Leito {
 
     @Id
-    @Column(name = "identificador_leito")
+    @Column(name = "identificador_leito", unique = true)
     private String idLeito;
 
     @Column(name = "is_ativo")
