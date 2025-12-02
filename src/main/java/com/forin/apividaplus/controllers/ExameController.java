@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.ExameInputDTO;
 import com.forin.apividaplus.dtos.ExameResponseDTO;
 import com.forin.apividaplus.models.atendimento.Exame;
 import com.forin.apividaplus.services.ExameService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ExameController {
     private ExameService exameService;
 
     @PostMapping
-    public ResponseEntity<ExameResponseDTO> marcarExame(@RequestBody ExameInputDTO exame){
+    public ResponseEntity<ExameResponseDTO> marcarExame(@Valid @RequestBody ExameInputDTO exame){
         Exame exameAgendado = exameService.marcarExame(exame);
 
         ExameResponseDTO exameDTO = toDTO(exameAgendado);

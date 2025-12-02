@@ -35,6 +35,7 @@ public class LeitoService {
         return toDTO(novoLeito);
     }
 
+    @Transactional
     public LeitoResponseDTO consultarLeito(String idLeito){
         Leito leito = leitoRepository.findById(idLeito).orElseThrow(
                 () -> new RuntimeException("Leito não encontrado")

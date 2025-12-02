@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.ClinicaResponseDTO;
 import com.forin.apividaplus.dtos.ConsultaResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Clinica;
 import com.forin.apividaplus.services.ClinicaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ClinicaController {
     private ClinicaService clinicaService;
 
     @PostMapping
-    public ResponseEntity<ClinicaResponseDTO> cadastrarClinica(@RequestBody ClinicaInputDTO clinica){
+    public ResponseEntity<ClinicaResponseDTO> cadastrarClinica(@Valid @RequestBody ClinicaInputDTO clinica){
         Clinica clinicaCriada = clinicaService.cadastrarClinica(clinica);
 
         ClinicaResponseDTO clinicaDTO = toDTO(clinicaCriada);

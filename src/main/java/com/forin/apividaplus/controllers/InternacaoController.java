@@ -3,6 +3,7 @@ package com.forin.apividaplus.controllers;
 import com.forin.apividaplus.dtos.InternacaoInputDTO;
 import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.services.InternacaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class InternacaoController {
     private InternacaoService internacaoService;
 
     @PostMapping
-    public ResponseEntity<InternacaoResponseDTO> cadastrarInternacao(@RequestBody InternacaoInputDTO internacao){
+    public ResponseEntity<InternacaoResponseDTO> cadastrarInternacao(@Valid @RequestBody InternacaoInputDTO internacao){
         InternacaoResponseDTO novaInternacao = internacaoService.cadastrarInternacao(internacao);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novaInternacao);

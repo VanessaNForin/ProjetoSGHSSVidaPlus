@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.LeitoInputDTO;
 import com.forin.apividaplus.dtos.LeitoResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 import com.forin.apividaplus.services.LeitoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class LeitoController {
     private LeitoService leitoService;
 
     @PostMapping
-    public ResponseEntity<LeitoResponseDTO> cadastrarLeito(@RequestBody LeitoInputDTO leito){
+    public ResponseEntity<LeitoResponseDTO> cadastrarLeito(@Valid @RequestBody LeitoInputDTO leito){
         LeitoResponseDTO novoLeito = leitoService.cadastrarLeito(leito);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLeito);

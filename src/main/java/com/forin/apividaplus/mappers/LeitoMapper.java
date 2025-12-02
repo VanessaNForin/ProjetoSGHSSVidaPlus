@@ -5,6 +5,11 @@ import com.forin.apividaplus.dtos.LeitoResponseDTO;
 import com.forin.apividaplus.models.atendimento.Internacao;
 import com.forin.apividaplus.models.infraestrutura.Leito;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 public class LeitoMapper {
 
     public static Leito toModel(LeitoInputDTO leito){
@@ -20,21 +25,23 @@ public class LeitoMapper {
         LeitoResponseDTO leitoResponseDTO = new LeitoResponseDTO();
 
         leitoResponseDTO.setIdLeito(leito.getIdLeito());
+        leitoResponseDTO.setIsAtivo(leito.getIsAtivo());
         leitoResponseDTO.setHospital(leito.getHospital().getNome());
         leitoResponseDTO.setAndar(leito.getAndar());
         leitoResponseDTO.setNumeroLeito(leito.getNumeroLeito());
 
-        Internacao internacaoAtual = leito.getInternacao()
+        Internacao internacaoAtual = Optional.ofNullable(leito.getInternacao())
+                .orElse(Collections.emptyList())
                 .stream()
                 .filter(Internacao::getIsAtivo)
                 .findFirst()
                 .orElse(null);
 
-        if (internacaoAtual == null){
-            leitoResponseDTO.setInternacaoAtual("Não há internação ativa nesse leito");
-        } else {
-            leitoResponseDTO.setInternacaoAtual(internacaoAtual.getPaciente().getNomeCompleto());
-        }
+        leitoResponseDTO.setInternacaoAtual(
+                internacaoAtual == null
+                        ? "Não há internação ativa nesse leito"
+                        : internacaoAtual.getPaciente().getNomeCompleto()
+        );
 
         return leitoResponseDTO;
     }

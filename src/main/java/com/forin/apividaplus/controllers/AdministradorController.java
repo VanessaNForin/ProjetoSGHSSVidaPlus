@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.AdministradorInputDTO;
 import com.forin.apividaplus.dtos.AdministradorResponseDTO;
 import com.forin.apividaplus.models.pessoas.Administrador;
 import com.forin.apividaplus.services.AdministradorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AdministradorController {
     private AdministradorService administradorService;
 
     @PostMapping
-    public ResponseEntity<AdministradorResponseDTO> cadastrarAdministrador(@RequestBody AdministradorInputDTO administrador){
+    public ResponseEntity<AdministradorResponseDTO> cadastrarAdministrador(@Valid @RequestBody AdministradorInputDTO administrador){
         Administrador novoAdministrador = administradorService.cadastrarAdministrador(administrador);
 
         AdministradorResponseDTO administradorDTO = toDTO(novoAdministrador);

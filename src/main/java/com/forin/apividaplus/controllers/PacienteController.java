@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.*;
 import com.forin.apividaplus.models.pessoas.Paciente;
 import com.forin.apividaplus.services.PacienteService;
 import com.forin.apividaplus.services.ReceitaDigitalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class PacienteController {
     private PacienteService pacienteService;
 
     @PostMapping
-    public ResponseEntity<PacienteResponseDTO> cadastrarPaciente(@RequestBody PacienteInputDTO paciente){
+    public ResponseEntity<PacienteResponseDTO> cadastrarPaciente(@Valid @RequestBody PacienteInputDTO paciente){
         PacienteResponseDTO novoPaciente = pacienteService.cadastrarPaciente(paciente);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoPaciente);

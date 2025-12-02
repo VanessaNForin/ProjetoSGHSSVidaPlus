@@ -31,7 +31,7 @@ public class Leito {
     @Column(name = "numero_leito", nullable = false)
     private Integer numeroLeito;
 
-    @OneToMany(mappedBy = "leito")
+    @OneToMany(mappedBy = "leito", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Internacao> internacao;
 

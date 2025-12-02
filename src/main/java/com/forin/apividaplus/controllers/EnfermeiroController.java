@@ -6,6 +6,7 @@ import com.forin.apividaplus.dtos.InternacaoResponseDTO;
 import com.forin.apividaplus.models.pessoas.Enfermeiro;
 import com.forin.apividaplus.services.EnfermeiroService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class EnfermeiroController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<EnfermeiroResponseDTO> cadastrarEnfermeiro(@RequestBody EnfermeiroInputDTO enfermeiro){
+    public ResponseEntity<EnfermeiroResponseDTO> cadastrarEnfermeiro(@Valid @RequestBody EnfermeiroInputDTO enfermeiro){
         Enfermeiro enfermeiroCadastrado = enfermeiroService.cadastrarEnfermeiro(enfermeiro);
 
         EnfermeiroResponseDTO enfermeiroDTO = toDTO(enfermeiroCadastrado);

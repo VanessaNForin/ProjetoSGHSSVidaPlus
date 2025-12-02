@@ -3,6 +3,7 @@ package com.forin.apividaplus.controllers;
 import com.forin.apividaplus.dtos.ConsultaInputDTO;
 import com.forin.apividaplus.dtos.ConsultaResponseDTO;
 import com.forin.apividaplus.services.ConsultaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class ConsultaController {
     private ConsultaService consultaService;
 
     @PostMapping
-    public ResponseEntity<ConsultaResponseDTO> marcarConsulta(@RequestBody ConsultaInputDTO consulta){
+    public ResponseEntity<ConsultaResponseDTO> marcarConsulta(@Valid @RequestBody ConsultaInputDTO consulta){
         ConsultaResponseDTO consultaMarcada = consultaService.marcarConsulta(consulta);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(consultaMarcada);

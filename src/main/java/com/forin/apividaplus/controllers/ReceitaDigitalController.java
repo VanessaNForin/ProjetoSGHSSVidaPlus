@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.ReceitaDigitalInputDTO;
 import com.forin.apividaplus.dtos.ReceitaDigitalResponseDTO;
 import com.forin.apividaplus.models.atendimento.ReceitaDigital;
 import com.forin.apividaplus.services.ReceitaDigitalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class ReceitaDigitalController {
     private ReceitaDigitalService receitaDigitalService;
 
     @PostMapping
-    public ResponseEntity<ReceitaDigitalResponseDTO> emitirReceitaDigital(@RequestBody ReceitaDigitalInputDTO receita){
+    public ResponseEntity<ReceitaDigitalResponseDTO> emitirReceitaDigital(@Valid @RequestBody ReceitaDigitalInputDTO receita){
         ReceitaDigitalResponseDTO novaReceita = receitaDigitalService.emitirReceitaDigital(receita);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novaReceita);

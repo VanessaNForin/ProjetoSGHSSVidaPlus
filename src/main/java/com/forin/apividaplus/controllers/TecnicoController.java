@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.TecnicoInputDTO;
 import com.forin.apividaplus.dtos.TecnicoResponseDTO;
 import com.forin.apividaplus.models.pessoas.Tecnico;
 import com.forin.apividaplus.services.TecnicoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class TecnicoController {
     private TecnicoService tecnicoService;
 
     @PostMapping
-    public ResponseEntity<TecnicoResponseDTO> cadastrarTecnico(@RequestBody TecnicoInputDTO tecnico){
+    public ResponseEntity<TecnicoResponseDTO> cadastrarTecnico(@Valid @RequestBody TecnicoInputDTO tecnico){
         TecnicoResponseDTO novoTecnico = tecnicoService.cadastrarTecnico(tecnico);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoTecnico);

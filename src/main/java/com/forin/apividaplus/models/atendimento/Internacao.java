@@ -49,6 +49,7 @@ public class Internacao {
 
     @Lob
     @Column(name = "prontuario", columnDefinition = "TEXT")
+    @Basic(fetch = FetchType.LAZY)
     private String prontuario;
 
 }

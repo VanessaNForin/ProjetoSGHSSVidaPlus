@@ -4,6 +4,7 @@ import com.forin.apividaplus.dtos.LaboratorioInputDTO;
 import com.forin.apividaplus.dtos.LaboratorioResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Laboratorio;
 import com.forin.apividaplus.services.LaboratorioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class LaboratorioController {
     private LaboratorioService laboratorioService;
 
     @PostMapping
-    public ResponseEntity<LaboratorioResponseDTO> cadastrarLaboratorio(@RequestBody LaboratorioInputDTO laboratorio){
+    public ResponseEntity<LaboratorioResponseDTO> cadastrarLaboratorio(@Valid @RequestBody LaboratorioInputDTO laboratorio){
         LaboratorioResponseDTO novoLaboratorio = laboratorioService.cadastrarLaboratorio(laboratorio);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLaboratorio);

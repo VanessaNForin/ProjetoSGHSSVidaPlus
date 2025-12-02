@@ -37,7 +37,7 @@ public class PacienteInputDTO {
     @Length(max = 20)
     private String profissao;
 
-    @NotBlank(message = "O campo TIPO DE CONVÊNIO é obrigatório")
+    @NotNull(message = "O campo TIPO DE CONVÊNIO é obrigatório")
     private Convenio convenio;
 
     @Length(max = 50)

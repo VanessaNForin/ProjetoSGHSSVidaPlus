@@ -5,6 +5,7 @@ import com.forin.apividaplus.dtos.HospitalResponseDTO;
 import com.forin.apividaplus.dtos.LeitoResponseDTO;
 import com.forin.apividaplus.models.infraestrutura.Hospital;
 import com.forin.apividaplus.services.HospitalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @PostMapping
-    public ResponseEntity<HospitalResponseDTO> cadastraHospital(@RequestBody HospitalInputDTO hospital){
+    public ResponseEntity<HospitalResponseDTO> cadastraHospital(@Valid @RequestBody HospitalInputDTO hospital){
         HospitalResponseDTO hospitalCriado = hospitalService.cadastrarHospital(hospital);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(hospitalCriado);
